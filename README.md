@@ -1,1 +1,1 @@
-# loi-notification-service
+# is-notification-service

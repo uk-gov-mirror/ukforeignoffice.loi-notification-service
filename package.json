@@ -1,0 +1,28 @@
+{
+  "name": "is-notification-service",
+  "version": "1.0.0",
+  "description": "Email notification microservice",
+  "author": "Mike Skaife <mike.skaife@informed.com>",
+  "dependencies": {
+    "async": "^1.5.1",
+    "body-parser": "~1.0.0",
+    "chai": "^3.5.0",
+    "dateformat": "^1.0.12",
+    "dotenv": "^2.0.0",
+    "express": "~4.0.0",
+    "istanbul": "^0.4.2",
+    "jshint": "^2.9.1",
+    "mocha": "^2.4.5",
+    "sendgrid": "^1.9.2",
+    "supertest": "^1.2.0",
+    "tape": "^4.5.1",
+    "xunit-file": "0.0.9"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "jshint --reporter checkstyle . > linting.xml",
+    "local-lint": "jshint .",
+    "test": "node_modules/mocha/bin/mocha --timeout 10000 --recursive -R xunit-file tests/",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --timeout 10000 --recursive -R tap \"tests/\" > test.tap && istanbul report clover"
+  }
+}
