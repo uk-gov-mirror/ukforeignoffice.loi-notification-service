@@ -14,6 +14,7 @@ var bodyParser = require('body-parser');
 var templator = require('./app/templateCreator.js');
 var common = require('./config/common.js');
 var sendGridSettings = common.config();
+require('./config/logs');
 
 var sendGrid = sendGridSettings.configs.proxy ? require('sendgrid')(sendGridSettings.configs.api_key, { proxy: sendGridSettings.configs.proxy }) : require('sendgrid')(sendGridSettings.configs.api_key);
 
