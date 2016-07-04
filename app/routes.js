@@ -145,7 +145,6 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 return false;
             }
             console.info('Email sent');
-            console.log(json);
             return json;
         });
 
