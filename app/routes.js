@@ -11,7 +11,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
     router
         //process login form
         .get('/healthcheck', function(req, res) {
-            res.json({ message: 'is-notification-service running'});
+            res.json({message: 'Notification Service is running'});
         });
 
     // =====================================
