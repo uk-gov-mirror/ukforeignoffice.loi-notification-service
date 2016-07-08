@@ -7,7 +7,7 @@ describe('Work with Notifications', function () {
             .expect(200)
             .end(function (err, res) {
                 if (err) return done(err);
-                expect(res.body.message).to.equal('is-notification-service running');
+                expect(res.body.message).to.equal('Notification Service is running');
                 done();
             });
     });
