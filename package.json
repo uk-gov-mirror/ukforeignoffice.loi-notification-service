@@ -16,6 +16,7 @@
     "sendgrid": "^1.9.2",
     "supertest": "^1.2.0",
     "tape": "^4.5.1",
+    "winston": "^2.1.1",
     "xunit-file": "0.0.9"
   },
   "license": "MIT",

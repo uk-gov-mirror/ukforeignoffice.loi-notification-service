@@ -11,7 +11,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
     router
         //process login form
         .get('/healthcheck', function(req, res) {
-            res.json({ message: 'is-notification-service running'});
+            res.json({message: 'Notification Service is running'});
         });
 
     // =====================================
@@ -28,7 +28,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 subject : 'Confirm your email to activate your account',
                 html    : templator.emailConfirmationTemplate(req.body.token, configSendGrid.urls.userServiceURL)
             });
-
+            console.info('Sending confirmation email');
             return res.json(sendEmail(req,res, payload));
         });
 
@@ -46,7 +46,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 subject : 'Legalisation application confirmation ' + req.body.application_reference,
                 html    : templator.submissionConfirmationTemplate(req.body.application_reference, req.body.send_information, configSendGrid.urls.applicationServiceURL)
             });
-
+            console.info('Sending submission confirmation email');
             return res.json(sendEmail(req,res, payload));
         });
 
@@ -64,7 +64,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 subject : 'Reset password instructions',
                 html    : templator.resetPasswordTemplate(req.body.token ,configSendGrid.urls.userServiceURL)
             });
-
+            console.info('Sending reset password email');
             return res.json(sendEmail(req,res, payload));
 
 
@@ -83,7 +83,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 subject : 'Your password has been updated',
                 html    : templator.passwordUpdatedTemplate()
             });
-
+            console.info('Sending updated password email');
             return res.json(sendEmail(req,res, payload));
 
 
@@ -103,7 +103,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 subject : 'Your account has been locked',
                 html    : templator.accountLockedTemplate(req.body.name,req.body.to,configSendGrid.urls.userServiceURL)
             });
-
+            console.info('Sending account locked email');
             return res.json(sendEmail(req,res, payload));
 
 
@@ -123,7 +123,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 subject : 'How to get documents certified',
                 html    : templator.failedDocumentTemplate(req.body.failed_certs)
             });
-
+            console.info('Sending failed eligibility email');
             return res.json(sendEmail(req,res, payload));
         });
 
@@ -144,7 +144,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 console.error(err);
                 return false;
             }
-            console.log(json);
+            console.info('Email sent');
             return json;
         });
 
