@@ -63,6 +63,22 @@ module.exports =  {
 
         return body;
     },
+    accountExpiringTemplate:  function(name, email,url ){
+        var body='';
+
+        body+=' <h1>Account expiring</h1> ' +
+        '<p style="font-size: 14px">Your legalisation online account will expire in one week. You can stop this by logging in.</p>' +
+        '<p style="font-size: 14px"></p>';
+        return body;
+    },
+    accountExpiredTemplate:  function(name, email,url ){
+        var body='';
+
+        body+=' <h1>Account expired</h1> ' +
+        '<p style="font-size: 14px">Your legalisation online account has expired due to inactivity.</p>' +
+        '<p style="font-size: 14px"></p>';
+        return body;
+    },
 
     failedDocumentTemplate: function (failed_certs_string){
         var body = '';

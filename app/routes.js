@@ -110,6 +110,45 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
         });
 
     // =====================================
+    // ACCOUNT EXPIRY WARNING
+    // =====================================
+    router
+
+        .post('/expiry_warning', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your account is going to expire',
+                html    : templator.accountExpiringTemplate(req.body.name,req.body.to,configSendGrid.urls.userServiceURL)
+            });
+
+            return res.json(sendEmail(req,res, payload));
+
+
+        });
+    // =====================================
+    // ACCOUNT EXPIRY CONFIRMATION
+    // =====================================
+    router
+
+        .post('/expiry_confirmation', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your account has expired',
+                html    : templator.accountExpiredTemplate(req.body.name,req.body.to,configSendGrid.urls.userServiceURL)
+            });
+
+            return res.json(sendEmail(req,res, payload));
+
+
+        });
+
+    // =====================================
     // FAILED DOCUMENTS
     // =====================================
     router
