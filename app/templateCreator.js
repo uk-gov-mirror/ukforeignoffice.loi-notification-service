@@ -12,17 +12,32 @@ module.exports =  {
         return body;
     },
 
-    submissionConfirmationTemplate:  function(reference, addressBody, url){
+    submissionConfirmationTemplate:  function(reference, addressBody, url, customerRef){
         var body='<style>p {font-size: 14px}</style>';
 
-        body+=' <h1>Application confirmation</h1> ' +
-            '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + reference + '.</p>' +
-            '<br/><p style="font-size: 14px; font-weight: bold;">What to do next</p>' +
-            addressBody[0] +
-            '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
-            '<td>' +
-            '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
-            '</td> </tr> </tbody></table>';
+        if(customerRef !== "undefined" && customerRef !== null && customerRef !== ""){
+
+            body+=' <h1>Application confirmation</h1> ' +
+                '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + reference + '. Your own reference for this application is ' + customerRef + '.</p>' +
+                '<br/><p style="font-size: 14px; font-weight: bold;">What to do next</p>' +
+                addressBody[0] +
+                '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
+                '<td>' +
+                '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
+                '</td> </tr> </tbody></table>';
+            
+        }else {
+
+            body+=' <h1>Application confirmation</h1> ' +
+                '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + reference + '.</p>' +
+                '<br/><p style="font-size: 14px; font-weight: bold;">What to do next</p>' +
+                addressBody[0] +
+                '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
+                '<td>' +
+                '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
+                '</td> </tr> </tbody></table>';
+
+        }
 
 
         return body;
