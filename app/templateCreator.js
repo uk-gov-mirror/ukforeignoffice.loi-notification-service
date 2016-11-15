@@ -12,11 +12,11 @@ module.exports =  {
         return body;
     },
 
-    submissionConfirmationTemplate:  function(reference, addressBody, url){
+    submissionConfirmationTemplate:  function(reference, addressBody, url, customerRef){
         var body='<style>p {font-size: 14px}</style>';
 
         body+=' <h1>Application confirmation</h1> ' +
-            '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + reference + '.</p>' +
+            '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + customerRef + '.</p>' +
             '<br/><p style="font-size: 14px; font-weight: bold;">What to do next</p>' +
             addressBody[0] +
             '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +

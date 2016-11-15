@@ -44,7 +44,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 to      : req.body.to,
                 from    : configSendGrid.fromAddresses.test,
                 subject : 'Legalisation application confirmation ' + req.body.application_reference,
-                html    : templator.submissionConfirmationTemplate(req.body.application_reference, req.body.send_information, configSendGrid.urls.applicationServiceURL)
+                html    : templator.submissionConfirmationTemplate(req.body.application_reference, req.body.send_information, configSendGrid.urls.applicationServiceURL,req.body.user_ref)
             });
             console.info('Sending submission confirmation email');
             return res.json(sendEmail(req,res, payload));
