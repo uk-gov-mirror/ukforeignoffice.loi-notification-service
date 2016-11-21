@@ -78,24 +78,24 @@ module.exports =  {
 
         return body;
     },
-    accountExpiringTemplate:  function(accountExpiryDate, dayAndMonth){
+    accountExpiringTemplate:  function(url, accountExpiryDate, dayAndMonth){
         var body='';
 
         body+=' <h1>Sign in if you want to keep your account</h1> ' +
         '<p style="font-size: 14px">As you have not signed in to your legalisation online account for a year it will be deleted on ' + accountExpiryDate + '.</p>' +
         '<br/><p style="font-size: 14px">If you want to keep your account click this link and sign in before ' + dayAndMonth + ':</p>' +
-        '<p style="font-size: 14px"><a style="font-weight: bold;" href="https://www.get-document-legalised.service.gov.uk/api/user/sign-in">https://www.get-document-legalised.service.gov.uk/api/user/sign-in</a></p>' +
+        '<p style="font-size: 14px"><a style="font-weight: bold;" href="' + url + '/sign-in">' + url + '/sign-in</a></p>' +
         '<br/><p style="font-size: 14px">If clicking the link doesn\'t work, copy it into your browser\'s address bar. If you\'ve forgotten your password follow the same link above and click the "Forgotten your password?" link on the page.</p>' +
         '<br/><p style="font-size: 14px">If you do not want to keep your account no further action is needed.</p>';
         return body;
     },
-    accountExpiredTemplate:  function(){
+    accountExpiredTemplate:  function(url){
         var body='';
 
         body+=' <h1>Account deleted</h1> ' +
         '<p style="font-size: 14px">As you have not signed in to your legalisation online account for over a year your account has now been deleted.</p>' +
         '<br/><p style="font-size: 14px">You can register for a new account at any time by clicking this link: </p>' +
-        '<p style="font-size: 14px"><a style="font-weight: bold;" href="https://www.get-document-legalised.service.gov.uk/api/user/register">https://www.get-document-legalised.service.gov.uk/api/user/register</a></p>' +
+        '<p style="font-size: 14px"><a style="font-weight: bold;" href="' + url + '/register">' + url + '/register</a></p>' +
         '<br/><p style="font-size: 14px">If clicking the link doesn\'t work, copy it into your browser\'s address bar.</p>';
         return body;
     },
