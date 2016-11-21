@@ -78,20 +78,25 @@ module.exports =  {
 
         return body;
     },
-    accountExpiringTemplate:  function(name, email,url ){
+    accountExpiringTemplate:  function(accountExpiryDate, dayAndMonth){
         var body='';
 
-        body+=' <h1>Account expiring</h1> ' +
-        '<p style="font-size: 14px">Your legalisation online account will expire in one week. You can stop this by logging in.</p>' +
-        '<p style="font-size: 14px"></p>';
+        body+=' <h1>Sign in if you want to keep your account</h1> ' +
+        '<p style="font-size: 14px">As you have not signed in to your legalisation online account for a year it will be deleted on ' + accountExpiryDate + '.</p>' +
+        '<br/><p style="font-size: 14px">If you want to keep your account click this link and sign in before ' + dayAndMonth + ':</p>' +
+        '<p style="font-size: 14px"><a style="font-weight: bold;" href="https://www.get-document-legalised.service.gov.uk/api/user/sign-in">https://www.get-document-legalised.service.gov.uk/api/user/sign-in</a></p>' +
+        '<br/><p style="font-size: 14px">If clicking the link doesn\'t work, copy it into your browser\'s address bar. If you\'ve forgotten your password follow the same link above and click the "Forgotten your password?" link on the page.</p>' +
+        '<br/><p style="font-size: 14px">If you do not want to keep your account no further action is needed.</p>';
         return body;
     },
-    accountExpiredTemplate:  function(name, email,url ){
+    accountExpiredTemplate:  function(){
         var body='';
 
-        body+=' <h1>Account expired</h1> ' +
-        '<p style="font-size: 14px">Your legalisation online account has expired due to inactivity.</p>' +
-        '<p style="font-size: 14px"></p>';
+        body+=' <h1>Account deleted</h1> ' +
+        '<p style="font-size: 14px">As you have not signed in to your legalisation online account for over a year your account has now been deleted.</p>' +
+        '<br/><p style="font-size: 14px">You can register for a new account at any time by clicking this link: </p>' +
+        '<p style="font-size: 14px"><a style="font-weight: bold;" href="https://www.get-document-legalised.service.gov.uk/api/user/register">https://www.get-document-legalised.service.gov.uk/api/user/register</a></p>' +
+        '<br/><p style="font-size: 14px">If clicking the link doesn\'t work, copy it into your browser\'s address bar.</p>';
         return body;
     },
 
