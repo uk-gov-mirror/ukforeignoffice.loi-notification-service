@@ -12,17 +12,32 @@ module.exports =  {
         return body;
     },
 
-    submissionConfirmationTemplate:  function(reference, addressBody, url){
+    submissionConfirmationTemplate:  function(reference, addressBody, url, customerRef){
         var body='<style>p {font-size: 14px}</style>';
 
-        body+=' <h1>Application confirmation</h1> ' +
-            '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + reference + '.</p>' +
-            '<br/><p style="font-size: 14px; font-weight: bold;">What to do next</p>' +
-            addressBody[0] +
-            '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
-            '<td>' +
-            '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
-            '</td> </tr> </tbody></table>';
+        if(customerRef !== "undefined" && customerRef !== null && customerRef !== ""){
+
+            body+=' <h1>Application confirmation</h1> ' +
+                '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + reference + '. Your own reference for this application is ' + customerRef + '.</p>' +
+                '<br/><p style="font-size: 14px; font-weight: bold;">What to do next</p>' +
+                addressBody[0] +
+                '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
+                '<td>' +
+                '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
+                '</td> </tr> </tbody></table>';
+            
+        }else {
+
+            body+=' <h1>Application confirmation</h1> ' +
+                '<p style="font-size: 14px">You\'ve successfully submitted your legalisation application. Your application reference number is ' + reference + '.</p>' +
+                '<br/><p style="font-size: 14px; font-weight: bold;">What to do next</p>' +
+                addressBody[0] +
+                '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
+                '<td>' +
+                '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
+                '</td> </tr> </tbody></table>';
+
+        }
 
 
         return body;
@@ -61,6 +76,27 @@ module.exports =  {
             '<br/><p style="font-size: 14px; font-weight: bold;"><a href="' + url + '/forgot?locked=true">' + url + '/forgot</a></p>' +
             '<br/><p style="font-size: 14px">If clicking the link doesn\'t work, copy it into your browser\'s address bar.</p>';
 
+        return body;
+    },
+    accountExpiringTemplate:  function(url, accountExpiryDate, dayAndMonth){
+        var body='';
+
+        body+=' <h1>Sign in if you want to keep your account</h1> ' +
+        '<p style="font-size: 14px">As you have not signed in to your legalisation online account for a year it will be deleted on ' + accountExpiryDate + '.</p>' +
+        '<br/><p style="font-size: 14px">If you want to keep your account click this link and sign in before ' + dayAndMonth + ':</p>' +
+        '<p style="font-size: 14px"><a style="font-weight: bold;" href="' + url + '/sign-in">' + url + '/sign-in</a></p>' +
+        '<br/><p style="font-size: 14px">If clicking the link doesn\'t work, copy it into your browser\'s address bar. If you\'ve forgotten your password follow the same link above and click the "Forgotten your password?" link on the page.</p>' +
+        '<br/><p style="font-size: 14px">If you do not want to keep your account no further action is needed.</p>';
+        return body;
+    },
+    accountExpiredTemplate:  function(url){
+        var body='';
+
+        body+=' <h1>Account deleted</h1> ' +
+        '<p style="font-size: 14px">As you have not signed in to your legalisation online account for over a year your account has now been deleted.</p>' +
+        '<br/><p style="font-size: 14px">You can register for a new account at any time by clicking this link: </p>' +
+        '<p style="font-size: 14px"><a style="font-weight: bold;" href="' + url + '/register">' + url + '/register</a></p>' +
+        '<br/><p style="font-size: 14px">If clicking the link doesn\'t work, copy it into your browser\'s address bar.</p>';
         return body;
     },
 
