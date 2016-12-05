@@ -44,7 +44,7 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
                 to      : req.body.to,
                 from    : configSendGrid.fromAddresses.test,
                 subject : 'Legalisation application confirmation ' + req.body.application_reference,
-                html    : templator.submissionConfirmationTemplate(req.body.application_reference, req.body.send_information, configSendGrid.urls.applicationServiceURL)
+                html    : templator.submissionConfirmationTemplate(req.body.application_reference, req.body.send_information, configSendGrid.urls.applicationServiceURL,req.body.user_ref)
             });
             console.info('Sending submission confirmation email');
             return res.json(sendEmail(req,res, payload));
@@ -106,6 +106,44 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
             console.info('Sending account locked email');
             return res.json(sendEmail(req,res, payload));
 
+
+        });
+
+    // =====================================
+    // ACCOUNT EXPIRY WARNING
+    // =====================================
+    router
+
+        .post('/expiry_warning', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your online account is about to expire',
+                html    : templator.accountExpiringTemplate(configSendGrid.urls.userServiceURL, req.body.accountExpiryDateText, req.body.dayAndMonthText)
+            });
+
+            return res.json(sendEmail(req,res, payload));
+
+
+        });
+    // =====================================
+    // ACCOUNT EXPIRY CONFIRMATION
+    // =====================================
+    router
+
+        .post('/expiry_confirmation', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your online account has been deleted',
+                html    : templator.accountExpiredTemplate(configSendGrid.urls.userServiceURL)
+            });
+
+            return res.json(sendEmail(req,res, payload));
 
         });
 
