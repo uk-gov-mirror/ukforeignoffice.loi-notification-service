@@ -122,12 +122,16 @@ module.exports =  {
             '<br/><p style="font-size: 14px">Certain documents must be certified in the UK by a solicitor or \'notary public\' before they can be legalised.</p>' +
             '<p style="font-size: 14px">When the solicitor or notary public signs the document, they must:</p>' +
             '<ul style="font-size: 14px">' +
-                '<li style="font-size: 14px">state the action they have taken eg witnessed, certified a copy, confirmed as original</li>' +
+            '<li style="font-size: 14px">have a valid practising certificate</li>' +
+            '<li style="font-size: 14px">sign the document in the UK</li>' +
+            '<li style="font-size: 14px">state the action they have taken eg witnessed, certified a copy, confirmed as original</li>' +
                 '<li style="font-size: 14px">use their personal signature, not a company signature</li>' +
                 '<li style="font-size: 14px">include the date of certification</li>' +
                 '<li style="font-size: 14px">include their name and company address</li>' +
             '</ul>' +
-            '<p style="font-size: 14px">If they add a notarial certificate, it must be attached to the document. The certificate must also contain a specific reference to the document they have certified.</p>' +
+            '<p style="font-size: 14px"><b>The solicitor or notary public’s signature must be an original, hand-written signature. We can\'t accept a photocopy or scan of a signature.</b></p>'+
+
+        '<p style="font-size: 14px">If they add a notarial certificate, it must be attached to the document. The certificate must also contain a specific reference to the document they have certified.</p>' +
             '<p style="font-size: 14px">If a notary public from England, Wales or Northern Ireland signs a document for legalisation, they must also stamp or emboss the document with their notarial seal.</p>' +
             '<p style="font-size: 14px">You can find:</p>'  +
             '<ul style="font-size: 14px">' +
@@ -136,9 +140,6 @@ module.exports =  {
                 '<li style="font-size: 14px; font-weight: bold;">solicitors and notaries public in Scotland at <a href="http://www.lawscot.org.uk/">http://www.lawscot.org.uk/</a></li>'  +
                 '<li style="font-size: 14px; font-weight: bold;">solicitors and notaries public in Northern Ireland at <a href="http://www.lawsoc-ni.org/">http://www.lawsoc-ni.org/</a></li>'  +
             '</ul>'  +
-
-            '<p style="font-size: 14px">You may be able to get your document certified at a British embassy. Check if this service is offered in the country you’re in at <a style="font-weight: bold;" href="https://www.gov.uk/government/world/embassies">https://www.gov.uk/government/world/embassies</a>.</p>'  +
-
             '<br/><p style="font-size: 14px; font-weight: bold;">What happens next?</p>' +
             '<br/><p style="font-size: 14px">Once you have certified all your documents, go back to <a style="font-weight: bold;" href="http://www.gov.uk/get-document-legalised">http://www.gov.uk/get-document-legalised</a> and resubmit your application to get them legalised.</p>';
 
