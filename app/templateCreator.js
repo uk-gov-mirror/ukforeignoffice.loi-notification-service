@@ -1,3 +1,5 @@
+var xssFilters = require('xss-filters');
+
 module.exports =  {
 
     emailConfirmationTemplate: function(token, url){
@@ -13,6 +15,7 @@ module.exports =  {
     },
 
     submissionConfirmationTemplate:  function(reference, addressBody, url, customerRef){
+        customerRef=xssFilters.inHTMLData(customerRef);
         var body='<style>p {font-size: 14px}</style>';
 
         if(customerRef !== "undefined" && customerRef !== null && customerRef !== ""){
