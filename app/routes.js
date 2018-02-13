@@ -120,8 +120,8 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
             var payload = new sendGrid.Email({
                 to      : req.body.to,
                 from    : configSendGrid.fromAddresses.test,
-                subject : 'Your online account is about to expire',
-                html    : templator.accountExpiringTemplate(configSendGrid.urls.userServiceURL, req.body.accountExpiryDateText, req.body.dayAndMonthText)
+                subject : 'Your online account is about to expire: ' + req.body.to,
+                html    : templator.accountExpiringTemplate(configSendGrid.urls.userServiceURL, req.body.accountExpiryDateText, req.body.dayAndMonthText, req.body.to)
             });
 
             return res.json(sendEmail(req,res, payload));
@@ -139,8 +139,8 @@ module.exports = function(router, sendGrid, configSendGrid,templator) {
             var payload = new sendGrid.Email({
                 to      : req.body.to,
                 from    : configSendGrid.fromAddresses.test,
-                subject : 'Your online account has been deleted',
-                html    : templator.accountExpiredTemplate(configSendGrid.urls.userServiceURL)
+                subject : 'Your online account has been deleted: ' + req.body.to,
+                html    : templator.accountExpiredTemplate(configSendGrid.urls.userServiceURL, req.body.to)
             });
 
             return res.json(sendEmail(req,res, payload));
