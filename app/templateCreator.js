@@ -27,8 +27,9 @@ module.exports =  {
                 '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
                 '<td>' +
                 '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
-                '</td> </tr> </tbody></table>';
-            
+                '</td> </tr> </tbody></table>' + '<br >' +
+                '<p>We would be grateful if you could complete this brief <a href="' + url + '/survey?pk_campaign=Simplifying-Circulation-of-Certain-Public-Documents-within-the-EU&pk_source=Email">survey</a>, to assist planning for the <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=LEGISSUM%3A230101_2">EU Regulation on Simplifying Circulation of Certain Public Documents within the EU</a>. This survey will not collect personal data and should not take more than three minutes to complete. Thank you.</p>';
+
         }else {
 
             body+=' <h1>Application confirmation</h1> ' +
@@ -38,7 +39,8 @@ module.exports =  {
                 '<table style="table-layout: fixed;width: 95%;"><tbody><tr><td> ' +  addressBody[1]+ '</td>' +
                 '<td>' +
                 '<img src="'+url+'/qr-code-converter/'+reference+'" style="margin: 0 auto;display: block;">' +
-                '</td> </tr> </tbody></table>';
+                '</td> </tr> </tbody></table>' + '<br >' +
+                '<p>We would be grateful if you could complete this brief <a href="' + url + '/survey?pk_campaign=Simplifying-Circulation-of-Certain-Public-Documents-within-the-EU&pk_source=Email">survey</a>, to assist planning for the <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=LEGISSUM%3A230101_2">EU Regulation on Simplifying Circulation of Certain Public Documents within the EU</a>. This survey will not collect personal data and should not take more than three minutes to complete. Thank you.</p>';
 
         }
 
