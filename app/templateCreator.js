@@ -28,8 +28,8 @@ module.exports = {
                     '<td>' +
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
-                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g solicitor, notary public, government official, medical practitioner, etc.).</p>' + '<br>' +
-                    '<p>You can get a UK document with the signature, stamp or seal of a UK public official legalised. You may need to send your document in a particular format e.g. an original not a photocopy. Please ensure you have checked your documents can be legalised. </p>';
+                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g. solicitor, notary public, government official, medical practitioner, etc.).</p>' + '<br>' +
+                    '<p>You can get a UK document with the signature, stamp, or seal of a UK public official legalised. You may need to send your document in a particular format e.g. an original not a photocopy. Please ensure you have checked your documents can be legalised. </p>';
             }
 
             else { //premium and drop-off service
@@ -42,7 +42,7 @@ module.exports = {
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
                     '<p>The office opening hours are 09:00-12:30 and 13:30-17:00. </p>' +
-                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g solicitor, notary public, government official, medical practitioner, etc.).</p>';
+                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g. solicitor, notary public, government official, medical practitioner, etc.).</p>';
             }
         } else {
             if (serviceType === 1) { //standard service
@@ -54,8 +54,8 @@ module.exports = {
                     '<td>' +
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
-                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g solicitor, notary public, government official, medical practitioner, etc.).</p>' + '<br>' +
-                    '<p>You can get a UK document with the signature, stamp or seal of a UK public official legalised. You may need to send your document in a particular format e.g. an original not a photocopy. Please ensure you have checked your documents can be legalised. </p>';
+                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g. solicitor, notary public, government official, medical practitioner, etc.).</p>' + '<br>' +
+                    '<p>You can get a UK document with the signature, stamp, or seal of a UK public official legalised. You may need to send your document in a particular format e.g. an original not a photocopy. Please ensure you have checked your documents can be legalised. </p>';
             }
 
             else { //premium and drop-off service
@@ -68,7 +68,7 @@ module.exports = {
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
                     '<p>The office opening hours are 09:00-12:30 and 13:30-17:00. </p>' +
-                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g solicitor, notary public, government official, medical practitioner, etc.).</p>';
+                    '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g. solicitor, notary public, government official, medical practitioner, etc.).</p>';
             }
         }
 
