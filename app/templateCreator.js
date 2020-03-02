@@ -67,7 +67,7 @@ module.exports = {
                     '<td>' +
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
-                    '<p>The office opening hours are 09:00-12:30 and 13:30-17:00. </p>' +
+                    '<p>The office opening hours are 9am-1pm and 2pm-4:45pm. </p>' +
                     '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g. solicitor, notary public, government official, medical practitioner, etc.).</p>';
             }
         }
