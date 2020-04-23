@@ -41,35 +41,20 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
         .post('/confirm-submission', function (req, res) {
 
             console.log('confirm submission output', req.body);
-            console.log('test');
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
             var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
 
-            if (req.body.service_type == 1) {//standard service
-
-                notifyClient
-                    .sendEmail("03acf3ba-0c95-438a-9ead-f6daadb8bb93", "c.mcgandy@kainos.com", {
-                        personalisation: {
-                            'application_reference': req.body.application_reference,
-                            'email_address' : req.body.to
-                        },
-                        reference: "app submission notify test"
-                    })
-                    .then(response => console.log(response))
-                    .catch(err => console.error(err))
-
-
-                console.log('Sending submission confirmation email Notify for standard');
-            }
-            else if
-                (req.body.service_type == 2) {//premium service
+            if (req.body.user_ref !== "undefined" && req.body.user_ref !== null && req.body.user_ref !== "") {
+                if (req.body.service_type == 1) {//standard service
 
                     notifyClient
-                        .sendEmail("6bc36b7a-dbd9-4363-b188-b3eed8c4fc79", "c.mcgandy@kainos.com", {
+                        .sendEmail("1f0557da-4c66-4f05-95ff-1ea55daede9f", req.body.to, {
                             personalisation: {
-                                'application_reference': req.body.application_reference
+                                'application_reference': req.body.application_reference,
+                                'email_address': req.body.to,
+                                'user_ref':req.body.user_ref
                             },
                             reference: "app submission notify test"
                         })
@@ -77,8 +62,62 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                         .catch(err => console.error(err))
 
 
-                    console.log('Sending submission confirmation email Notify for premium');
+                    console.log('Sending submission confirmation email Notify for standard');
+                } else {
+                    (req.body.service_type == 2)
+                    {//premium and drop-off service
+
+                        notifyClient
+                            .sendEmail("2fa30eab-e847-4fc0-ae2b-1725923adb9a", "c.mcgandy@kainos.com", {
+                                personalisation: {
+                                    'application_reference': req.body.application_reference,
+                                    'user_ref':req.body.user_ref
+
+                                },
+                                reference: "app submission notify test"
+                            })
+                            .then(response => console.log(response))
+                            .catch(err => console.error(err))
+
+
+                        console.log('Sending submission confirmation email Notify for premium');
+                    }
                 }
+            }else{
+                if (req.body.service_type == 1) {//standard service
+
+                    notifyClient
+                        .sendEmail("03acf3ba-0c95-438a-9ead-f6daadb8bb93", req.body.to, {
+                            personalisation: {
+                                'application_reference': req.body.application_reference,
+                                'email_address': req.body.to
+                            },
+                            reference: "app submission notify test"
+                        })
+                        .then(response => console.log(response))
+                        .catch(err => console.error(err))
+
+
+                    console.log('Sending submission confirmation email Notify for standard');
+                } else {
+                    (req.body.service_type == 2)
+                    {//premium and drop-off service
+
+                        notifyClient
+                            .sendEmail("6bc36b7a-dbd9-4363-b188-b3eed8c4fc79", "c.mcgandy@kainos.com", {
+                                personalisation: {
+                                    'application_reference': req.body.application_reference
+                                },
+                                reference: "app submission notify test"
+                            })
+                            .then(response => console.log(response))
+                            .catch(err => console.error(err))
+
+
+                        console.log('Sending submission confirmation email Notify for premium');
+                    }
+                }
+            }
 
         });
 
