@@ -52,8 +52,8 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                 notifyClient
                     .sendEmail("03acf3ba-0c95-438a-9ead-f6daadb8bb93", "c.mcgandy@kainos.com", {
                         personalisation: {
-                            'first_name': 'Conor',
-                            'application_reference': 'application_reference'
+                            'application_reference': req.body.application_reference,
+                            'email_address' : req.body.to
                         },
                         reference: "app submission notify test"
                     })
@@ -69,8 +69,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     notifyClient
                         .sendEmail("6bc36b7a-dbd9-4363-b188-b3eed8c4fc79", "c.mcgandy@kainos.com", {
                             personalisation: {
-                                'first_name': 'Conor',
-                                'application_reference': 'application_reference'
+                                'application_reference': req.body.application_reference
                             },
                             reference: "app submission notify test"
                         })
