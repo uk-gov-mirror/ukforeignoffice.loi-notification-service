@@ -47,20 +47,40 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
 
+            if (req.body.service_type == 1) {//standard service
 
-            notifyClient
-                .sendEmail("03acf3ba-0c95-438a-9ead-f6daadb8bb93", "c.mcgandy@kainos.com", {
-                    personalisation: {
-                        'first_name':'Conor',
-                        'application_reference':'application_reference'
-                    },
-                    reference: "app submission notify test"
-                })
-                .then(response => console.log(response))
-                .catch(err => console.error(err))
+                notifyClient
+                    .sendEmail("03acf3ba-0c95-438a-9ead-f6daadb8bb93", "c.mcgandy@kainos.com", {
+                        personalisation: {
+                            'first_name': 'Conor',
+                            'application_reference': 'application_reference'
+                        },
+                        reference: "app submission notify test"
+                    })
+                    .then(response => console.log(response))
+                    .catch(err => console.error(err))
 
 
-            console.log('Sending submission confirmation email Notify');
+                console.log('Sending submission confirmation email Notify for standard');
+            }
+            else if
+                (req.body.service_type == 2) {//premium service
+
+                    notifyClient
+                        .sendEmail("6bc36b7a-dbd9-4363-b188-b3eed8c4fc79", "c.mcgandy@kainos.com", {
+                            personalisation: {
+                                'first_name': 'Conor',
+                                'application_reference': 'application_reference'
+                            },
+                            reference: "app submission notify test"
+                        })
+                        .then(response => console.log(response))
+                        .catch(err => console.error(err))
+
+
+                    console.log('Sending submission confirmation email Notify for premium');
+                }
+
         });
 
 
