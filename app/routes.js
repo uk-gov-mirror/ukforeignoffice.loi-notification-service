@@ -167,21 +167,32 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
     // =====================================
     // PASSWORD UPDATED
     // =====================================
+
     router
 
         .post('/password-updated', function (req, res) {
 
-            //construct email from post request JSON
-            var payload = new sendGrid.Email({
-                to: req.body.to,
-                from: configSendGrid.fromAddresses.test,
-                subject: 'Your password has been updated',
-                html: templator.passwordUpdatedTemplate()
-            });
-            console.info('Sending updated password email');
-            return res.json(sendEmail(req, res, payload));
+            var NotifyClient = require('notifications-node-client').NotifyClient
+
+            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
 
 
+            notifyClient
+                .sendEmail("52fd0907-3e80-41f9-be02-3239c1371a64", req.body.to, {
+                    personalisation: {
+                        'application_reference': req.body.application_reference,
+                        'email_address': req.body.to,
+                        'user_ref': req.body.user_ref,
+                        'token': req.body.token,
+                        'url': "http://localhost:8080/api/user"
+                    },
+                    reference: "update password  notify test"
+                })
+                .then(response => console.log(response))
+                .catch(err => console.error(err))
+
+
+            console.log('Sending updated password email');
         });
 
     // =====================================
