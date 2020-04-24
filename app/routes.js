@@ -22,8 +22,6 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
         .post('/confirm-email', function (req, res) {
 
-            console.log('confirm email output', req.body);
-
             var NotifyClient = require('notifications-node-client').NotifyClient
 
             var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
@@ -46,25 +44,6 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             console.log('Sending confirmation email for notify');
         });
-
-
-
-    // router
-    //
-    //     .post('/confirm-email', function (req, res) {
-    //
-    //
-    //
-    //         //construct email from post request JSON
-    //         var payload = new sendGrid.Email({
-    //             to: req.body.to,
-    //             from: configSendGrid.fromAddresses.test,
-    //             subject: 'Confirm your email to activate your account',
-    //             html: templator.emailConfirmationTemplate(req.body.token, configSendGrid.urls.userServiceURL)
-    //         });
-    //         console.info('Sending confirmation email');
-    //         return res.json(sendEmail(req, res, payload));
-    //     });
 
     // =====================================
     // SUBMISSION CONFIRMATION
@@ -155,23 +134,6 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
         });
 
-
-
-    // router
-    //
-    //     .post('/confirm-submission', function (req, res) {
-    //
-    //         //construct email from post request JSON
-    //         var payload = new sendGrid.Email({
-    //             to: req.body.to,
-    //             from: configSendGrid.fromAddresses.test,
-    //             subject: 'Legalisation application confirmation ' + req.body.application_reference,
-    //             html: templator.submissionConfirmationTemplate(req.body.application_reference, req.body.send_information, configSendGrid.urls.applicationServiceURL, req.body.user_ref, req.body.service_type)
-    //         });
-    //         console.info('Sending submission confirmation email');
-    //         return res.json(sendEmail(req, res, payload));
-    //     });
-
     // =====================================
     // RESET PASSWORD
     // =====================================
@@ -179,18 +141,29 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
         .post('/reset-password', function (req, res) {
 
-            //construct email from post request JSON
-            var payload = new sendGrid.Email({
-                to: req.body.to,
-                from: configSendGrid.fromAddresses.test,
-                subject: 'Reset password instructions',
-                html: templator.resetPasswordTemplate(req.body.token, configSendGrid.urls.userServiceURL)
-            });
-            console.info('Sending reset password email');
-            return res.json(sendEmail(req, res, payload));
+            var NotifyClient = require('notifications-node-client').NotifyClient
+
+            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
 
 
+            notifyClient
+                .sendEmail("1b1eabfa-cf93-4faf-92df-2d11963cc043", req.body.to, {
+                    personalisation: {
+                        'application_reference': req.body.application_reference,
+                        'email_address': req.body.to,
+                        'user_ref': req.body.user_ref,
+                        'token': req.body.token,
+                        'url': "http://localhost:8080/api/user"
+                    },
+                    reference: "reset email notify test"
+                })
+                .then(response => console.log(response))
+                .catch(err => console.error(err))
+
+
+            console.log('Sending reset password email');
         });
+
     // =====================================
     // PASSWORD UPDATED
     // =====================================
