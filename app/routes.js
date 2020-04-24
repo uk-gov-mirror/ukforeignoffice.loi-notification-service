@@ -17,20 +17,54 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
     // =====================================
     // CONFIRM EMAIL
     // =====================================
+
     router
 
         .post('/confirm-email', function (req, res) {
 
-            //construct email from post request JSON
-            var payload = new sendGrid.Email({
-                to: req.body.to,
-                from: configSendGrid.fromAddresses.test,
-                subject: 'Confirm your email to activate your account',
-                html: templator.emailConfirmationTemplate(req.body.token, configSendGrid.urls.userServiceURL)
-            });
-            console.info('Sending confirmation email');
-            return res.json(sendEmail(req, res, payload));
+            console.log('confirm email output', req.body);
+
+            var NotifyClient = require('notifications-node-client').NotifyClient
+
+            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+
+
+            notifyClient
+                .sendEmail("fc22c984-b50b-4c43-898e-039dd808b039", req.body.to, {
+                    personalisation: {
+                        'application_reference': req.body.application_reference,
+                        'email_address': req.body.to,
+                        'user_ref': req.body.user_ref,
+                        'token': req.body.token,
+                        'url': "http://localhost:8080/api/user"
+                    },
+                    reference: "email confirmation notify test"
+                })
+                .then(response => console.log(response))
+                .catch(err => console.error(err))
+
+
+            console.log('Sending confirmation email for notify');
         });
+
+
+
+    // router
+    //
+    //     .post('/confirm-email', function (req, res) {
+    //
+    //
+    //
+    //         //construct email from post request JSON
+    //         var payload = new sendGrid.Email({
+    //             to: req.body.to,
+    //             from: configSendGrid.fromAddresses.test,
+    //             subject: 'Confirm your email to activate your account',
+    //             html: templator.emailConfirmationTemplate(req.body.token, configSendGrid.urls.userServiceURL)
+    //         });
+    //         console.info('Sending confirmation email');
+    //         return res.json(sendEmail(req, res, payload));
+    //     });
 
     // =====================================
     // SUBMISSION CONFIRMATION
