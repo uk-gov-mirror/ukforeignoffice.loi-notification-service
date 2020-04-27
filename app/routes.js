@@ -217,7 +217,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                         'token': req.body.token,
                         'url': "http://localhost:8080/api/user"
                     },
-                    reference: "reset email notify test"
+                    reference: "account locked notify test"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
@@ -252,7 +252,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                         'dayAndMonthText':req.body.dayAndMonthText,
                         'accountExpiryDateText':req.body.accountExpiryDateText
                     },
-                    reference: "reset email notify test"
+                    reference: "expiry warning test"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
@@ -261,23 +261,6 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
             console.log('Sending account expiry warning email');
         });
 
-
-    // router
-    //
-    //     .post('/expiry_warning', function (req, res) {
-    //
-    //         //construct email from post request JSON
-    //         var payload = new sendGrid.Email({
-    //             to: req.body.to,
-    //             from: configSendGrid.fromAddresses.test,
-    //             subject: 'Your online account is about to expire: ' + req.body.to,
-    //             html: templator.accountExpiringTemplate(configSendGrid.urls.userServiceURL, req.body.accountExpiryDateText, req.body.dayAndMonthText, req.body.to)
-    //         });
-    //
-    //         return res.json(sendEmail(req, res, payload));
-    //
-    //
-    //     });
     // =====================================
     // ACCOUNT EXPIRY CONFIRMATION
     // =====================================
@@ -301,7 +284,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                         'dayAndMonth':req.body.dayAndMonth,
                         'accountExpiryDate':req.body.accountExpiryDate
                     },
-                    reference: "reset email notify test"
+                    reference: "expiry confirmation test"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
@@ -313,22 +296,32 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
     // =====================================
     // FAILED DOCUMENTS
     // =====================================
+
     router
 
         .post('/failed-documents', function (req, res) {
 
-            //construct email from post request JSON
-            var payload = new sendGrid.Email({
-                to: req.body.to,
-                from: configSendGrid.fromAddresses.test,
-                subject: 'How to get documents certified',
-                html: templator.failedDocumentTemplate(req.body.failed_certs)
-            });
-            console.info('Sending failed eligibility email');
-            return res.json(sendEmail(req, res, payload));
+            var NotifyClient = require('notifications-node-client').NotifyClient
+
+            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+
+            notifyClient
+                .sendEmail("9472b582-a9d3-4496-9444-e3855ed9e4b1", req.body.to, {
+                    personalisation: {
+                        'application_reference': req.body.application_reference,
+                        'email_address': req.body.to,
+                        'failed_certs': req.body.failed_certs
+                    },
+                    reference: "failed eligibility email notify test"
+                })
+                .then(response => console.log(response))
+                .catch(err => console.error(err))
+
+
+            console.log('Sending failed eligibility email');
         });
 
-};
+ };
 
 
 // function sendEmail(req, res, payload) { //send the email via SendGrid
