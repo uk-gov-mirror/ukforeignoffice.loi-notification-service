@@ -230,40 +230,84 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
     // =====================================
     // ACCOUNT EXPIRY WARNING
     // =====================================
+
     router
 
         .post('/expiry_warning', function (req, res) {
 
-            //construct email from post request JSON
-            var payload = new sendGrid.Email({
-                to: req.body.to,
-                from: configSendGrid.fromAddresses.test,
-                subject: 'Your online account is about to expire: ' + req.body.to,
-                html: templator.accountExpiringTemplate(configSendGrid.urls.userServiceURL, req.body.accountExpiryDateText, req.body.dayAndMonthText, req.body.to)
-            });
+            var NotifyClient = require('notifications-node-client').NotifyClient
 
-            return res.json(sendEmail(req, res, payload));
+            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+
+            console.log('confirm submission output', req.body);
+
+            notifyClient
+                .sendEmail("31de4933-f80f-4eb9-acf4-1ba6e24c29df", req.body.to, {
+                    personalisation: {
+                        'application_reference': req.body.application_reference,
+                        'email_address': req.body.to,
+                        'user_ref': req.body.user_ref,
+                        'token': req.body.token,
+                        'url': "http://localhost:8080/api/user",
+                        'dayAndMonthText':req.body.dayAndMonthText,
+                        'accountExpiryDateText':req.body.accountExpiryDateText
+                    },
+                    reference: "reset email notify test"
+                })
+                .then(response => console.log(response))
+                .catch(err => console.error(err))
 
 
+            console.log('Sending account expiry warning email');
         });
+
+
+    // router
+    //
+    //     .post('/expiry_warning', function (req, res) {
+    //
+    //         //construct email from post request JSON
+    //         var payload = new sendGrid.Email({
+    //             to: req.body.to,
+    //             from: configSendGrid.fromAddresses.test,
+    //             subject: 'Your online account is about to expire: ' + req.body.to,
+    //             html: templator.accountExpiringTemplate(configSendGrid.urls.userServiceURL, req.body.accountExpiryDateText, req.body.dayAndMonthText, req.body.to)
+    //         });
+    //
+    //         return res.json(sendEmail(req, res, payload));
+    //
+    //
+    //     });
     // =====================================
     // ACCOUNT EXPIRY CONFIRMATION
     // =====================================
+
     router
 
         .post('/expiry_confirmation', function (req, res) {
 
-            //construct email from post request JSON
-            var payload = new sendGrid.Email({
-                to: req.body.to,
-                from: configSendGrid.fromAddresses.test,
-                subject: 'Your online account has been deleted: ' + req.body.to,
-                html: templator.accountExpiredTemplate(configSendGrid.urls.userServiceURL, req.body.to)
-            });
+            var NotifyClient = require('notifications-node-client').NotifyClient
 
-            return res.json(sendEmail(req, res, payload));
+            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+
+            notifyClient
+                .sendEmail("5503019b-8111-4146-92dd-325797b85cc6", req.body.to, {
+                    personalisation: {
+                        'application_reference': req.body.application_reference,
+                        'email_address': req.body.to,
+                        'user_ref': req.body.user_ref,
+                        'token': req.body.token,
+                        'url': "http://localhost:8080/api/user",
+                        'dayAndMonth':req.body.dayAndMonth,
+                        'accountExpiryDate':req.body.accountExpiryDate
+                    },
+                    reference: "reset email notify test"
+                })
+                .then(response => console.log(response))
+                .catch(err => console.error(err))
 
 
+            console.log('Sending account expiry confirmation email');
         });
 
     // =====================================
