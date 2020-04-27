@@ -198,22 +198,34 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
     // =====================================
     // ACCOUNT LOCKED
     // =====================================
+
     router
 
         .post('/account_locked', function (req, res) {
 
-            //construct email from post request JSON
-            var payload = new sendGrid.Email({
-                to: req.body.to,
-                from: configSendGrid.fromAddresses.test,
-                subject: 'Your account has been locked',
-                html: templator.accountLockedTemplate(req.body.name, req.body.to, configSendGrid.urls.userServiceURL)
-            });
-            console.info('Sending account locked email');
-            return res.json(sendEmail(req, res, payload));
+            var NotifyClient = require('notifications-node-client').NotifyClient
+
+            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
 
 
+            notifyClient
+                .sendEmail("48f87536-1ee5-4000-adc1-eb6a373c60ca", req.body.to, {
+                    personalisation: {
+                        'application_reference': req.body.application_reference,
+                        'email_address': req.body.to,
+                        'user_ref': req.body.user_ref,
+                        'token': req.body.token,
+                        'url': "http://localhost:8080/api/user"
+                    },
+                    reference: "reset email notify test"
+                })
+                .then(response => console.log(response))
+                .catch(err => console.error(err))
+
+
+            console.log('Sending account locked email');
         });
+
 
     // =====================================
     // ACCOUNT EXPIRY WARNING
