@@ -186,7 +186,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                         'token': req.body.token,
                         'url': "http://localhost:8080/api/user"
                     },
-                    reference: "update password  notify test"
+                    reference: "update password notify test"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
