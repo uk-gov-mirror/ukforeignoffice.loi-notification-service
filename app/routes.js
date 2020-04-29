@@ -301,16 +301,18 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
         .post('/failed-documents',function failed_certs_string(req){
 
-            var failed_certs = req.body.failed_certs;
+             var failed_certs = JSON.parse(req.body.failed_certs);
+             //console.log(failed_certs);
+
             var docLabel = (failed_certs.length > 1) ? 'documents' : 'document';
-        console.log(docLabel);
 
 
             var failedCertList = '';
         for (var i = 0; i < failed_certs.length; i++) {
-            failedCertList += failed_certs[i].doc_title;
+            //failedCertList += failed_certs[i].doc_title;
+            failedCertList += '<li style="font-size: 14px">' + failed_certs[i].doc_title + '</li>';
+
         }
-        console.log(failedCertList);
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
@@ -321,6 +323,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
+                        //'doc_title': req.doc_title\\
                         'failed_certs': req.body.failed_certs,
                         'docLabel': docLabel,
                         'failedCertList': failedCertList
