@@ -299,7 +299,18 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
     router
 
-        .post('/failed-documents', function (req, res) {
+        .post('/failed-documents',function failed_certs_string(req){
+
+            var failed_certs = req.body.failed_certs;
+            var docLabel = (failed_certs.length > 1) ? 'documents' : 'document';
+        console.log(docLabel);
+
+
+            var failedCertList = '';
+        for (var i = 0; i < failed_certs.length; i++) {
+            failedCertList += failed_certs[i].doc_title;
+        }
+        console.log(failedCertList);
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
@@ -310,7 +321,9 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'failed_certs': req.body.failed_certs
+                        'failed_certs': req.body.failed_certs,
+                        'docLabel': docLabel,
+                        'failedCertList': failedCertList
                     },
                     reference: "failed eligibility email notify test"
                 })
@@ -319,7 +332,8 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
 
             console.log('Sending failed eligibility email');
-        });
+
+    });
 
  };
 
