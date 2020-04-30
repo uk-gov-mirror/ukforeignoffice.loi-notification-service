@@ -24,7 +24,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
 
             notifyClient
@@ -32,17 +32,16 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'user_ref': req.body.user_ref,
                         'token': req.body.token,
                         'url': "http://localhost:8080/api/user"
                     },
-                    reference: "email confirmation notify test"
+                    reference: "email confirmation"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
 
 
-            console.log('Sending confirmation email for notify');
+            console.log('Sending confirmation email');
         });
 
     // =====================================
@@ -57,7 +56,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
             if (req.body.user_ref !== "undefined" && req.body.user_ref !== null && req.body.user_ref !== "") {
                 if (req.body.service_type == 1) {//standard service
@@ -69,13 +68,13 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                                 'email_address': req.body.to,
                                 'user_ref':req.body.user_ref
                             },
-                            reference: "app submission notify test"
+                            reference: "application submission standard"
                         })
                         .then(response => console.log(response))
                         .catch(err => console.error(err))
 
 
-                    console.log('Sending submission confirmation email Notify for standard');
+                    console.log('Sending submission confirmation email');
                 } else {
                     (req.body.service_type == 2)
                     {//premium and drop-off service
@@ -93,7 +92,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                             .catch(err => console.error(err))
 
 
-                        console.log('Sending submission confirmation email Notify for premium');
+                        console.log('Sending submission confirmation');
                     }
                 }
             }else{
@@ -105,13 +104,13 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                                 'application_reference': req.body.application_reference,
                                 'email_address': req.body.to
                             },
-                            reference: "app submission notify test"
+                            reference: "application submission standard"
                         })
                         .then(response => console.log(response))
                         .catch(err => console.error(err))
 
 
-                    console.log('Sending submission confirmation email Notify for standard');
+                    console.log('Sending submission confirmation');
                 } else {
                     (req.body.service_type == 2)
                     {//premium and drop-off service
@@ -121,13 +120,13 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                                 personalisation: {
                                     'application_reference': req.body.application_reference
                                 },
-                                reference: "app submission notify test"
+                                reference: "application submission premium"
                             })
                             .then(response => console.log(response))
                             .catch(err => console.error(err))
 
 
-                        console.log('Sending submission confirmation email Notify for premium');
+                        console.log('Sending submission confirmation email');
                     }
                 }
             }
@@ -143,7 +142,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
 
             notifyClient
@@ -151,11 +150,10 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'user_ref': req.body.user_ref,
                         'token': req.body.token,
                         'url': "http://localhost:8080/api/user"
                     },
-                    reference: "reset email notify test"
+                    reference: "reset email password"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
@@ -174,7 +172,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
 
             notifyClient
@@ -182,11 +180,10 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'user_ref': req.body.user_ref,
                         'token': req.body.token,
                         'url': "http://localhost:8080/api/user"
                     },
-                    reference: "update password notify test"
+                    reference: "update password"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
@@ -205,7 +202,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
 
             notifyClient
@@ -213,11 +210,9 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'user_ref': req.body.user_ref,
                         'token': req.body.token,
-                        'url': "http://localhost:8080/api/user"
                     },
-                    reference: "account locked notify test"
+                    reference: "account locked"
                 })
                 .then(response => console.log(response))
                 .catch(err => console.error(err))
@@ -237,7 +232,7 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
             console.log('confirm submission output', req.body);
 
@@ -246,7 +241,6 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'user_ref': req.body.user_ref,
                         'token': req.body.token,
                         'url': "http://localhost:8080/api/user",
                         'dayAndMonthText':req.body.dayAndMonthText,
@@ -271,18 +265,14 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
             notifyClient
                 .sendEmail("5503019b-8111-4146-92dd-325797b85cc6", req.body.to, {
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'user_ref': req.body.user_ref,
-                        'token': req.body.token,
-                        'url': "http://localhost:8080/api/user",
-                        'dayAndMonth':req.body.dayAndMonth,
-                        'accountExpiryDate':req.body.accountExpiryDate
+                        'url': "http://localhost:8080/api/user"
                     },
                     reference: "expiry confirmation test"
                 })
@@ -308,22 +298,19 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
 
             var failedCertList = '';
-        for (var i = 0; i < failed_certs.length; i++) {
-            //failedCertList += failed_certs[i].doc_title;
-            failedCertList += '<li style="font-size: 14px">' + failed_certs[i].doc_title + '</li>';
-
-        }
+            for (var i = 0; i < failed_certs.length; i++) {
+            failedCertList += failed_certs[i].doc_title;
+            }
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_test_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-23decf65-ecc6-45bb-9fb9-696320d48544")
+            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
 
             notifyClient
                 .sendEmail("9472b582-a9d3-4496-9444-e3855ed9e4b1", req.body.to, {
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        //'doc_title': req.doc_title\\
                         'failed_certs': req.body.failed_certs,
                         'docLabel': docLabel,
                         'failedCertList': failedCertList
@@ -335,33 +322,9 @@ module.exports = function(router, sendGrid,notify, configSendGrid,configNotify,t
 
 
             console.log('Sending failed eligibility email');
-
     });
 
  };
-
-
-// function sendEmail(req, res, payload) { //send the email via SendGrid
-//     //use SendGrid template (GOV.UK)
-//     payload.setFilters({
-//         'templates': {
-//             'settings': {
-//                 'enable': 1,
-//                 'template_id': configSendGrid.templates.emailTemplateId
-//             }
-//         }
-//     });
-//     payload.setFromName('Legalisation Office');
-//     sendGrid.send(payload, function (err, json) {
-//         if (err) {
-//             console.error(err);
-//             return false;
-//         }
-//         console.info('Email sent');
-//         return json;
-//     });
-//
-// }
 
 
 
