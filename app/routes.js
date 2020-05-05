@@ -22,7 +22,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
 
             notifyClient
@@ -54,7 +54,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
             if (req.body.user_ref !== "undefined" && req.body.user_ref !== null && req.body.user_ref !== "") {
                 if (req.body.service_type == 1) {//standard service
@@ -140,7 +140,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
 
             notifyClient
@@ -170,7 +170,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
 
             notifyClient
@@ -200,7 +200,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
 
             notifyClient
@@ -230,7 +230,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
             notifyClient
                 .sendEmail(configNotify.templates.emailTemplateExpiryWarning, req.body.to, {
@@ -261,7 +261,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient("conor_preprod_api_key-6c19e868-f026-4ff4-86ed-8effb112c0cc-f0323ce0-45bc-4cbb-8976-dc58b24a0f75")
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
             notifyClient
                 .sendEmail(configNotify.templates.emailTemplateExpiryConfirmation, req.body.to, {
@@ -299,7 +299,7 @@ module.exports = function(router,notify,configNotify) {
 
             var NotifyClient = require('notifications-node-client').NotifyClient
 
-            var notifyClient = new NotifyClient(configNotify.configs.api_key)
+            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
 
             notifyClient
                 .sendEmail(configNotify.templates.emailTemplateFailedDoc, req.body.to, {
