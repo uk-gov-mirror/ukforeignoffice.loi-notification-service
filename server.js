@@ -13,10 +13,9 @@ var bodyParser = require('body-parser');
 
 var common = require('./config/common.js');
 var notifySettings = common.config();
-//console.log(JSON.stringify(notifySettings));
 require('./config/logs');
 
-var notify = require('notifications-node-client');
+var notify = require('notifications-node-client').NotifyClient
 
 // =====================================
 // CONFIGURATION

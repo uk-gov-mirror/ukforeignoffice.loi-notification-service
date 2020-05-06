@@ -3,7 +3,10 @@
  */
 
 
-module.exports = function(router,notify,configNotify) {
+module.exports = function(router, notify, notifySettings) {
+
+    var notifyClient = new notify(notifySettings.configs.notify_api_key)
+
     // =====================================
     // HEALTHCHECK
     // =====================================
@@ -17,29 +20,23 @@ module.exports = function(router,notify,configNotify) {
     // CONFIRM EMAIL
     // =====================================
     router
-
         .post('/confirm-email', function (req, res) {
-
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
-
             notifyClient
-                .sendEmail(configNotify.templates.emailTemplateConfirm, req.body.to, {
+                .sendEmail(notifySettings.templates.emailTemplateConfirm, req.body.to, {
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
                         'token': req.body.token,
-                        'url': configNotify.urls.userServiceURL
+                        'url': notifySettings.urls.userServiceURL
                     },
                     reference: "email confirmation"
                 })
-                .then(response => console.log(response))
+                .then(response => {
+                    console.debug('Sending confirmation email')
+                    return res.json('Confirmation email sent');
+                }
+                    )
                 .catch(err => console.error(err))
-
-
-            console.log('Sending confirmation email');
         });
 
     // =====================================
@@ -47,236 +44,181 @@ module.exports = function(router,notify,configNotify) {
     // =====================================
 
     router
-
         .post('/confirm-submission', function (req, res) {
-
-            console.log('confirm submission output', req.body);
-
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
             if (req.body.user_ref !== "undefined" && req.body.user_ref !== null && req.body.user_ref !== "") {
-                if (req.body.service_type == 1) {//standard service
+                // Application Emails when we have a reference
 
+                if (req.body.service_type == 1) { // standard service with reference
                     notifyClient
-                        .sendEmail(configNotify.templates.emailTemplateSubmissionStandardNoUserRef, req.body.to, {
+                        .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardUserRef, req.body.to, {
                             personalisation: {
                                 'application_reference': req.body.application_reference,
                                 'email_address': req.body.to,
-                                'user_ref':req.body.user_ref
+                                'customerRef': req.body.user_ref
                             },
                             reference: "application submission standard without user ref"
                         })
-                        .then(response => console.log(response))
+                        .then(response => {
+                            console.info('Sending standard submission confirmation email with user reference')
+                            return res.json('Standard submission confirmation (with reference) sent');
+                        })
                         .catch(err => console.error(err))
-
-
-                    console.log('Sending submission confirmation email');
-                } else {
-                    (req.body.service_type == 2)
-                    {//premium and drop-off service
-
-                        notifyClient
-                            .sendEmail(configNotify.templates.emailTemplateSubmissionPremiumNoUserRef, "c.mcgandy@kainos.com", {
-                                personalisation: {
-                                    'application_reference': req.body.application_reference,
-                                    'user_ref':req.body.user_ref
-
-                                },
-                                reference: "application submission premium without user ref"
-                            })
-                            .then(response => console.log(response))
-                            .catch(err => console.error(err))
-
-
-                        console.log('Sending submission confirmation');
-                    }
-                }
-            }else{
-                if (req.body.service_type == 1) {//standard service
-
+                } else if (req.body.service_type == 2) { // premium and drop-off service with reference
                     notifyClient
-                        .sendEmail(configNotify.templates.emailTemplateSubmissionStandardUserRef, req.body.to, {
+                        .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumUserRef, req.body.to, {
+                            personalisation: {
+                                'application_reference': req.body.application_reference,
+                                'customerRef': req.body.user_ref
+                            },
+                            reference: "application submission premium without user ref"
+                        })
+                        .then(response => {
+                            console.info('Sending premium submission confirmation email with user reference')
+                            return res.json('Premium submission confirmation (with reference) sent')
+                        })
+                        .catch(err => console.error(err))
+                }
+
+                // Application Email with no reference
+            } else {
+                if (req.body.service_type == 1) { // standard service with no reference
+                    notifyClient
+                        .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardNoUserRef, req.body.to, {
                             personalisation: {
                                 'application_reference': req.body.application_reference,
                                 'email_address': req.body.to
                             },
                             reference: "application submission standard with user ref"
                         })
-                        .then(response => console.log(response))
-                        .catch(err => console.error(err))
-
-
-                    console.log('Sending submission confirmation');
-                } else {
-                    (req.body.service_type == 2)
-                    {//premium and drop-off service
-
-                        notifyClient
-                            .sendEmail(configNotify.templates.emailTemplateSubmissionPremiumUserRef, "c.mcgandy@kainos.com", {
-                                personalisation: {
-                                    'application_reference': req.body.application_reference
-                                },
-                                reference: "application submission premium with user ref"
+                        .then(response => {
+                            console.info('Sending standard submission confirmation email')
+                            return res.json('Standard submission confirmation (without reference) sent');
                             })
-                            .then(response => console.log(response))
-                            .catch(err => console.error(err))
-
-
-                        console.log('Sending submission confirmation email');
-                    }
+                        .catch(err => console.error(err))
+                } else if (req.body.service_type == 2) { // premium and drop-off service with no reference
+                    notifyClient
+                        .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumNoUserRef, req.body.to, {
+                            personalisation: {
+                                'application_reference': req.body.application_reference
+                            },
+                            reference: "application submission premium with user ref"
+                        })
+                        .then(response => {
+                            console.log('Sending premium submission confirmation email')
+                            return res.json('Premium submission confirmation (without reference) sent');
+                            }
+                        )
+                        .catch(err => console.error(err))
                 }
             }
-
         });
 
     // =====================================
     // RESET PASSWORD
     // =====================================
     router
-
         .post('/reset-password', function (req, res) {
-
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
-
             notifyClient
-                .sendEmail(configNotify.templates.emailTemplateResetPassword, req.body.to, {
+                .sendEmail(notifySettings.templates.emailTemplateResetPassword, req.body.to, {
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
                         'token': req.body.token,
-                        'url': configNotify.urls.userServiceURL
+                        'url': notifySettings.urls.userServiceURL
                     },
                     reference: "reset email password"
                 })
-                .then(response => console.log(response))
+                .then(response => {
+                    console.info('Sending reset password email')
+                    return res.json('Password reset email sent');
+                })
                 .catch(err => console.error(err))
-
-
-            console.log('Sending reset password email');
         });
 
     // =====================================
     // PASSWORD UPDATED
     // =====================================
-
     router
-
         .post('/password-updated', function (req, res) {
-
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
-
             notifyClient
-                .sendEmail(configNotify.templates.emailTemplatePasswordUpdated, req.body.to, {
+                .sendEmail(notifySettings.templates.emailTemplatePasswordUpdated, req.body.to, {
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
                         'token': req.body.token,
-                        'url': configNotify.urls.userServiceURL
+                        'url': notifySettings.urls.userServiceURL
                     },
                     reference: "update password"
                 })
-                .then(response => console.log(response))
+                .then(response => {
+                    console.info('Sending updated password email')
+                    return res.json('Password updated email sent');
+                })
                 .catch(err => console.error(err))
-
-
-            console.log('Sending updated password email');
         });
 
     // =====================================
     // ACCOUNT LOCKED
     // =====================================
-
     router
-
         .post('/account_locked', function (req, res) {
-
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
-
             notifyClient
-                .sendEmail(configNotify.templates.emailTemplateAccountLocked, req.body.to, {
+                .sendEmail(notifySettings.templates.emailTemplateAccountLocked, req.body.to, {
                     personalisation: {
                         'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'token': req.body.token
+                        'url': notifySettings.urls.userServiceURL
                     },
                     reference: "account locked"
                 })
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log('Sending account locked email')
+                    return res.json('Account locked email sent');
+                })
                 .catch(err => console.error(err))
-
-
-            console.log('Sending account locked email');
         });
 
 
     // =====================================
     // ACCOUNT EXPIRY WARNING
     // =====================================
-
     router
-
         .post('/expiry_warning', function (req, res) {
-
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
             notifyClient
-                .sendEmail(configNotify.templates.emailTemplateExpiryWarning, req.body.to, {
+                .sendEmail(notifySettings.templates.emailTemplateExpiryWarning, req.body.to, {
                     personalisation: {
-                        'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'token': req.body.token,
-                        'url': configNotify.urls.userServiceURL,
+                        'url': notifySettings.urls.userServiceURL,
                         'dayAndMonthText':req.body.dayAndMonthText,
                         'accountExpiryDateText':req.body.accountExpiryDateText
                     },
                     reference: "expiry warning test"
                 })
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log('Sending account expiry warning email')
+                    return res.json('Account expiry warning email sent');
+                })
                 .catch(err => console.error(err))
-
-
-            console.log('Sending account expiry warning email');
         });
 
     // =====================================
     // ACCOUNT EXPIRY CONFIRMATION
     // =====================================
-
     router
-
         .post('/expiry_confirmation', function (req, res) {
-
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
             notifyClient
-                .sendEmail(configNotify.templates.emailTemplateExpiryConfirmation, req.body.to, {
+                .sendEmail(notifySettings.templates.emailTemplateExpiryConfirmation, req.body.to, {
                     personalisation: {
-                        'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'url': configNotify.urls.userServiceURL
+                        'url': notifySettings.urls.userServiceURL
                     },
                     reference: "expiry confirmation test"
                 })
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log('Sending account expiry confirmation email')
+                    return res.json('Account expired confirmation email sent');
+                })
                 .catch(err => console.error(err))
-
-
-            console.log('Sending account expiry confirmation email');
         });
 
     // =====================================
@@ -285,40 +227,31 @@ module.exports = function(router,notify,configNotify) {
 
     router
 
-        .post('/failed-documents',function failed_certs_string(req){
-
-             var failed_certs = JSON.parse(req.body.failed_certs);
+        .post('/failed-documents',function failed_certs_string(req, res){
+            var failed_certs = JSON.parse(req.body.failed_certs);
 
             var docLabel = (failed_certs.length > 1) ? 'documents' : 'document';
 
-
-            var failedCertList = '';
+            var failedCertList = [];
             for (var i = 0; i < failed_certs.length; i++) {
-            failedCertList += failed_certs[i].doc_title;
+                failedCertList.push(failed_certs[i].doc_title);
             }
 
-            var NotifyClient = require('notifications-node-client').NotifyClient
-
-            var notifyClient = new NotifyClient(configNotify.configs.api_key_preprod)
-
             notifyClient
-                .sendEmail(configNotify.templates.emailTemplateFailedDoc, req.body.to, {
+                .sendEmail(notifySettings.templates.emailTemplateFailedDoc, req.body.to, {
                     personalisation: {
-                        'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
-                        'failed_certs': req.body.failed_certs,
                         'docLabel': docLabel,
                         'failedCertList': failedCertList
                     },
                     reference: "failed eligibility email notify test"
                 })
-                .then(response => console.log(response))
+                .then(response => {
+                    console.log('Sending failed eligibility email')
+                    return res.json('Failed document eligibility email sent');
+                })
                 .catch(err => console.error(err))
-
-
-            console.log('Sending failed eligibility email');
     });
-
  };
 
 
