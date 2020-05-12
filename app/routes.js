@@ -252,6 +252,30 @@ module.exports = function(router, notify, notifySettings) {
                 })
                 .catch(err => console.error(err))
     });
+
+    // =====================================
+    // Additional Payments Receipt
+    // =====================================
+
+    router
+        .post('/additional-payment-receipt',function failed_certs_string(req, res){
+            notifyClient
+                .sendEmail(notifySettings.templates.emailTemplateAdditionalPaymentReceipt, req.body.to, {
+                    personalisation: {
+                        'dateOfPayment': req.body.dateOfPayment,
+                        'pspReference': req.body.pspReference,
+                        'serviceSlug': req.body.serviceSlug,
+                        'paymentAmount': req.body.paymentAmount,
+                        'paymentMethod': req.body.paymentMethod
+                    },
+                    reference: "additional payment receipt"
+                })
+                .then(response => {
+                    console.log('Sending additional payment receipt email')
+                    return res.json('Additional payment receipt email sent');
+                })
+                .catch(err => console.error(err))
+        })
  };
 
 
