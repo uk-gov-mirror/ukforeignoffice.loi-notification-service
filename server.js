@@ -26,7 +26,7 @@ app.use(bodyParser.json()); //get information from HTML forms
 // ROUTES
 // =====================================
 var router = express.Router(); //get instance of Express router
-require('./app/routes.js')(router, notify, notifySettings); //load routes passing in app and configured passport
+require('./app/notifications.js')(router, notify, notifySettings); //load routes passing in app and configured passport
 app.use('/api/notification', router); //prefix all requests with 'api'
 
 // =====================================

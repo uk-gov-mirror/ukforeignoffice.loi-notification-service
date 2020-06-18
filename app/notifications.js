@@ -24,7 +24,6 @@ module.exports = function(router, notify, notifySettings) {
             notifyClient
                 .sendEmail(notifySettings.templates.emailTemplateConfirm, req.body.to, {
                     personalisation: {
-                        'application_reference': req.body.application_reference,
                         'email_address': req.body.to,
                         'token': req.body.token,
                         'url': notifySettings.urls.userServiceURL
@@ -32,7 +31,7 @@ module.exports = function(router, notify, notifySettings) {
                     reference: "email confirmation"
                 })
                 .then(response => {
-                    console.debug('Sending confirmation email')
+                    console.info('Sending confirmation email')
                     return res.json('Confirmation email sent');
                 }
                     )
@@ -53,7 +52,6 @@ module.exports = function(router, notify, notifySettings) {
                         .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardUserRef, req.body.to, {
                             personalisation: {
                                 'application_reference': req.body.application_reference,
-                                'email_address': req.body.to,
                                 'customerRef': req.body.user_ref
                             },
                             reference: "application submission standard without user ref"
@@ -86,7 +84,6 @@ module.exports = function(router, notify, notifySettings) {
                         .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardNoUserRef, req.body.to, {
                             personalisation: {
                                 'application_reference': req.body.application_reference,
-                                'email_address': req.body.to
                             },
                             reference: "application submission standard with user ref"
                         })
