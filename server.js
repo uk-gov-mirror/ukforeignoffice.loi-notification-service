@@ -20,7 +20,7 @@ var notify = require('notifications-node-client').NotifyClient
 // =====================================
 // CONFIGURATION
 // =====================================
-app.use(bodyParser()); //get information from HTML forms
+app.use(bodyParser.json()); //get information from HTML forms
 
 // =====================================
 // ROUTES
