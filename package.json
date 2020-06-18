@@ -4,27 +4,23 @@
   "description": "Email notification microservice",
   "author": "Mike Skaife <mike.skaife@informed.com>",
   "dependencies": {
-    "async": "^1.5.1",
-    "body-parser": "1.18.2",
-    "chai": "^3.5.0",
-    "dateformat": "^1.0.12",
-    "dotenv": "^2.0.0",
-    "express": "4.16.2",
-    "istanbul": "^0.4.2",
-    "jshint": "^2.9.1",
-    "mocha": "5.0.0",
+    "body-parser": "1.19.0",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "express": "4.17.1",
+    "istanbul": "^0.4.5",
+    "jshint": "^2.11.1",
+    "mocha": "8.0.1",
     "notifications-node-client": "^4.7.3",
-    "supertest": "3.0.0",
-    "tape": "^4.5.1",
+    "supertest": "4.0.2",
     "winston": "^2.1.1",
-    "xss-filters": "^1.2.7",
-    "xunit-file": "0.0.9"
+    "xss-filters": "^1.2.7"
   },
   "license": "MIT",
   "scripts": {
     "lint": "jshint --reporter checkstyle . > linting.xml",
     "local-lint": "jshint .",
-    "test": "node_modules/mocha/bin/mocha --timeout 10000 --recursive -R xunit-file tests/",
+    "test": "node_modules/mocha/bin/mocha --timeout 10000 --recursive tests/ --exit",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --timeout 10000 --recursive -R tap \"tests/\" > test.tap && istanbul report clover"
   }
 }
