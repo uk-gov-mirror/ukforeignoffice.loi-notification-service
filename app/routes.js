@@ -3,16 +3,14 @@
  */
 
 
-module.exports = function(router, notify, notifySettings) {
-
-    var notifyClient = new notify(notifySettings.configs.notify_api_key)
+module.exports = function(router, sendGrid, configSendGrid,templator) {
 
     // =====================================
     // HEALTHCHECK
     // =====================================
     router
-    //process login form
-        .get('/healthcheck', function (req, res) {
+        //process login form
+        .get('/healthcheck', function(req, res) {
             res.json({message: 'Notification Service is running'});
         });
 
@@ -20,263 +18,177 @@ module.exports = function(router, notify, notifySettings) {
     // CONFIRM EMAIL
     // =====================================
     router
-        .post('/confirm-email', function (req, res) {
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplateConfirm, req.body.to, {
-                    personalisation: {
-                        'application_reference': req.body.application_reference,
-                        'email_address': req.body.to,
-                        'token': req.body.token,
-                        'url': notifySettings.urls.userServiceURL
-                    },
-                    reference: "email confirmation"
-                })
-                .then(response => {
-                    console.debug('Sending confirmation email')
-                    return res.json('Confirmation email sent');
-                }
-                    )
-                .catch(err => console.error(err))
+
+        .post('/confirm-email', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Confirm your email to activate your account',
+                html    : templator.emailConfirmationTemplate(req.body.token, configSendGrid.urls.userServiceURL)
+            });
+            console.info('Sending confirmation email');
+            return res.json(sendEmail(req,res, payload));
         });
 
     // =====================================
     // SUBMISSION CONFIRMATION
     // =====================================
-
     router
-        .post('/confirm-submission', function (req, res) {
-            if (req.body.user_ref !== "undefined" && req.body.user_ref !== null && req.body.user_ref !== "") {
-                // Application Emails when we have a reference
 
-                if (req.body.service_type == 1) { // standard service with reference
-                    notifyClient
-                        .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardUserRef, req.body.to, {
-                            personalisation: {
-                                'application_reference': req.body.application_reference,
-                                'email_address': req.body.to,
-                                'customerRef': req.body.user_ref
-                            },
-                            reference: "application submission standard without user ref"
-                        })
-                        .then(response => {
-                            console.info('Sending standard submission confirmation email with user reference')
-                            return res.json('Standard submission confirmation (with reference) sent');
-                        })
-                        .catch(err => console.error(err))
-                } else if (req.body.service_type == 2) { // premium and drop-off service with reference
-                    notifyClient
-                        .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumUserRef, req.body.to, {
-                            personalisation: {
-                                'application_reference': req.body.application_reference,
-                                'customerRef': req.body.user_ref
-                            },
-                            reference: "application submission premium without user ref"
-                        })
-                        .then(response => {
-                            console.info('Sending premium submission confirmation email with user reference')
-                            return res.json('Premium submission confirmation (with reference) sent')
-                        })
-                        .catch(err => console.error(err))
-                }
+        .post('/confirm-submission', function(req, res) {
 
-                // Application Email with no reference
-            } else {
-                if (req.body.service_type == 1) { // standard service with no reference
-                    notifyClient
-                        .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardNoUserRef, req.body.to, {
-                            personalisation: {
-                                'application_reference': req.body.application_reference,
-                                'email_address': req.body.to
-                            },
-                            reference: "application submission standard with user ref"
-                        })
-                        .then(response => {
-                            console.info('Sending standard submission confirmation email')
-                            return res.json('Standard submission confirmation (without reference) sent');
-                            })
-                        .catch(err => console.error(err))
-                } else if (req.body.service_type == 2) { // premium and drop-off service with no reference
-                    notifyClient
-                        .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumNoUserRef, req.body.to, {
-                            personalisation: {
-                                'application_reference': req.body.application_reference
-                            },
-                            reference: "application submission premium with user ref"
-                        })
-                        .then(response => {
-                            console.log('Sending premium submission confirmation email')
-                            return res.json('Premium submission confirmation (without reference) sent');
-                            }
-                        )
-                        .catch(err => console.error(err))
-                }
-            }
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Legalisation application confirmation ' + req.body.application_reference,
+                html    : templator.submissionConfirmationTemplate(req.body.application_reference, req.body.send_information, configSendGrid.urls.applicationServiceURL,req.body.user_ref, req.body.service_type)
+            });
+            console.info('Sending submission confirmation email');
+            return res.json(sendEmail(req,res, payload));
         });
 
     // =====================================
     // RESET PASSWORD
     // =====================================
     router
-        .post('/reset-password', function (req, res) {
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplateResetPassword, req.body.to, {
-                    personalisation: {
-                        'application_reference': req.body.application_reference,
-                        'email_address': req.body.to,
-                        'token': req.body.token,
-                        'url': notifySettings.urls.userServiceURL
-                    },
-                    reference: "reset email password"
-                })
-                .then(response => {
-                    console.info('Sending reset password email')
-                    return res.json('Password reset email sent');
-                })
-                .catch(err => console.error(err))
-        });
 
+        .post('/reset-password', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Reset password instructions',
+                html    : templator.resetPasswordTemplate(req.body.token ,configSendGrid.urls.userServiceURL)
+            });
+            console.info('Sending reset password email');
+            return res.json(sendEmail(req,res, payload));
+
+
+        });
     // =====================================
     // PASSWORD UPDATED
     // =====================================
     router
-        .post('/password-updated', function (req, res) {
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplatePasswordUpdated, req.body.to, {
-                    personalisation: {
-                        'application_reference': req.body.application_reference,
-                        'email_address': req.body.to,
-                        'token': req.body.token,
-                        'url': notifySettings.urls.userServiceURL
-                    },
-                    reference: "update password"
-                })
-                .then(response => {
-                    console.info('Sending updated password email')
-                    return res.json('Password updated email sent');
-                })
-                .catch(err => console.error(err))
+
+        .post('/password-updated', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your password has been updated',
+                html    : templator.passwordUpdatedTemplate()
+            });
+            console.info('Sending updated password email');
+            return res.json(sendEmail(req,res, payload));
+
+
         });
 
     // =====================================
     // ACCOUNT LOCKED
     // =====================================
     router
-        .post('/account_locked', function (req, res) {
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplateAccountLocked, req.body.to, {
-                    personalisation: {
-                        'application_reference': req.body.application_reference,
-                        'email_address': req.body.to,
-                        'url': notifySettings.urls.userServiceURL
-                    },
-                    reference: "account locked"
-                })
-                .then(response => {
-                    console.log('Sending account locked email')
-                    return res.json('Account locked email sent');
-                })
-                .catch(err => console.error(err))
-        });
 
+        .post('/account_locked', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your account has been locked',
+                html    : templator.accountLockedTemplate(req.body.name,req.body.to,configSendGrid.urls.userServiceURL)
+            });
+            console.info('Sending account locked email');
+            return res.json(sendEmail(req,res, payload));
+
+
+        });
 
     // =====================================
     // ACCOUNT EXPIRY WARNING
     // =====================================
     router
-        .post('/expiry_warning', function (req, res) {
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplateExpiryWarning, req.body.to, {
-                    personalisation: {
-                        'email_address': req.body.to,
-                        'url': notifySettings.urls.userServiceURL,
-                        'dayAndMonthText':req.body.dayAndMonthText,
-                        'accountExpiryDateText':req.body.accountExpiryDateText
-                    },
-                    reference: "expiry warning test"
-                })
-                .then(response => {
-                    console.log('Sending account expiry warning email')
-                    return res.json('Account expiry warning email sent');
-                })
-                .catch(err => console.error(err))
-        });
 
+        .post('/expiry_warning', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your online account is about to expire: ' + req.body.to,
+                html    : templator.accountExpiringTemplate(configSendGrid.urls.userServiceURL, req.body.accountExpiryDateText, req.body.dayAndMonthText, req.body.to)
+            });
+
+            return res.json(sendEmail(req,res, payload));
+
+
+        });
     // =====================================
     // ACCOUNT EXPIRY CONFIRMATION
     // =====================================
     router
-        .post('/expiry_confirmation', function (req, res) {
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplateExpiryConfirmation, req.body.to, {
-                    personalisation: {
-                        'email_address': req.body.to,
-                        'url': notifySettings.urls.userServiceURL
-                    },
-                    reference: "expiry confirmation test"
-                })
-                .then(response => {
-                    console.log('Sending account expiry confirmation email')
-                    return res.json('Account expired confirmation email sent');
-                })
-                .catch(err => console.error(err))
+
+        .post('/expiry_confirmation', function(req, res) {
+
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'Your online account has been deleted: ' + req.body.to,
+                html    : templator.accountExpiredTemplate(configSendGrid.urls.userServiceURL, req.body.to)
+            });
+
+            return res.json(sendEmail(req,res, payload));
+
+
         });
 
     // =====================================
     // FAILED DOCUMENTS
     // =====================================
-
     router
 
-        .post('/failed-documents',function failed_certs_string(req, res){
-            var failed_certs = JSON.parse(req.body.failed_certs);
+        .post('/failed-documents', function(req, res) {
 
-            var docLabel = (failed_certs.length > 1) ? 'documents' : 'document';
+            //construct email from post request JSON
+            var payload = new sendGrid.Email({
+                to      : req.body.to,
+                from    : configSendGrid.fromAddresses.test,
+                subject : 'How to get documents certified',
+                html    : templator.failedDocumentTemplate(req.body.failed_certs)
+            });
+            console.info('Sending failed eligibility email');
+            return res.json(sendEmail(req,res, payload));
+        });
 
-            var failedCertList = [];
-            for (var i = 0; i < failed_certs.length; i++) {
-                failedCertList.push(failed_certs[i].doc_title);
+
+    function sendEmail(req, res, payload) { //send the email via SendGrid
+        //use SendGrid template (GOV.UK)
+        payload.setFilters({
+            'templates': {
+                'settings': {
+                    'enable': 1,
+                    'template_id': configSendGrid.templates.emailTemplateId
+                }
             }
+        });
+        payload.setFromName('Legalisation Office');
+        sendGrid.send(payload, function (err, json) {
+            if (err) {
+                console.error(err);
+                return false;
+            }
+            console.info('Email sent');
+            return json;
+        });
 
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplateFailedDoc, req.body.to, {
-                    personalisation: {
-                        'email_address': req.body.to,
-                        'docLabel': docLabel,
-                        'failedCertList': failedCertList
-                    },
-                    reference: "failed eligibility email notify test"
-                })
-                .then(response => {
-                    console.log('Sending failed eligibility email')
-                    return res.json('Failed document eligibility email sent');
-                })
-                .catch(err => console.error(err))
-    });
-
-    // =====================================
-    // Additional Payments Receipt
-    // =====================================
-
-    router
-        .post('/additional-payment-receipt',function failed_certs_string(req, res){
-            notifyClient
-                .sendEmail(notifySettings.templates.emailTemplateAdditionalPaymentReceipt, req.body.to, {
-                    personalisation: {
-                        'dateOfPayment': req.body.dateOfPayment,
-                        'pspReference': req.body.pspReference,
-                        'serviceSlug': req.body.serviceSlug,
-                        'paymentAmount': req.body.paymentAmount,
-                        'paymentMethod': req.body.paymentMethod
-                    },
-                    reference: "additional payment receipt"
-                })
-                .then(response => {
-                    console.log('Sending additional payment receipt email')
-                    return res.json('Additional payment receipt email sent');
-                })
-                .catch(err => console.error(err))
-        })
- };
+    }
+};
 
 
 
