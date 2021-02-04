@@ -41,7 +41,7 @@ module.exports = {
                     '<td>' +
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
-                    '<p>Office opening hours </p>' +
+                    '<p style="font-size: 14px; font-weight: bold;">Office opening hours </p>' +
                     '<p>Monday to Friday (excluding public holidays):</p>' +
                     '<p>9am – 1pm (for drop off of applications only)  </p>' +
                     '<p>2pm – 4pm (for collection of completed applications only)  </p>' +
@@ -70,7 +70,7 @@ module.exports = {
                     '<td>' +
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
-                    '<p>Office opening hours </p>' +
+                    '<p style="font-size: 14px; font-weight: bold;">Office opening hours </p>' +
                     '<p>Monday to Friday (excluding public holidays):</p>' +
                     '<p>9am – 1pm (for drop off of applications only)  </p>' +
                     '<p>2pm – 4pm (for collection of completed applications only)  </p>' +
