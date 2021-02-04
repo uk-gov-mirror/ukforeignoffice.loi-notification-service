@@ -41,7 +41,10 @@ module.exports = {
                     '<td>' +
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
-                    '<p>The office opening hours are 9am-1pm and 2pm-4:45pm. </p>' +
+                    '<p>Office opening hours </p>' +
+                    '<p>Monday to Friday (excluding public holidays):</p>' +
+                    '<p>9am – 1pm (for drop off of applications only)  </p>' +
+                    '<p>2pm – 4pm (for collection of completed applications only)  </p>' +
                     '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g. solicitor, notary public, government official, medical practitioner, etc.).</p>';
             }
         } else {
@@ -67,7 +70,10 @@ module.exports = {
                     '<td>' +
                     '<img src="' + url + '/qr-code-converter/' + reference + '" style="margin: 0 auto;display: block;">' +
                     '</td> </tr> </tbody></table>' + '<br >' +
-                    '<p>The office opening hours are 9am-1pm and 2pm-4:45pm. </p>' +
+                    '<p>Office opening hours </p>' +
+                    '<p>Monday to Friday (excluding public holidays):</p>' +
+                    '<p>9am – 1pm (for drop off of applications only)  </p>' +
+                    '<p>2pm – 4pm (for collection of completed applications only)  </p>' +
                     '<p>Please ensure your documents have been certified by the relevant authority with an original wet ink signature and/or seal (e.g. solicitor, notary public, government official, medical practitioner, etc.).</p>';
             }
         }
