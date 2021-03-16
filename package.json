@@ -11,7 +11,7 @@
     "istanbul": "^0.4.5",
     "jshint": "^2.11.1",
     "mocha": "8.0.1",
-    "sendgrid": "^1.9.2",
+    "notifications-node-client": "^5.1.0",
     "supertest": "4.0.2",
     "winston": "^2.1.1",
     "xss-filters": "^1.2.7"
