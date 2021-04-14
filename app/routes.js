@@ -45,10 +45,11 @@ module.exports = function(router, notify, notifySettings) {
 
     router
         .post('/confirm-submission', function (req, res) {
+            // Application Emails when we have a reference
             if (req.body.user_ref !== "undefined" && req.body.user_ref !== null && req.body.user_ref !== "") {
-                // Application Emails when we have a reference
-
-                if (req.body.service_type == 1) { // standard service with reference
+                
+                // standard service with reference
+                if (req.body.service_type == 1) { 
                     notifyClient
                         .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardUserRef, req.body.to, {
                             personalisation: {
@@ -63,7 +64,8 @@ module.exports = function(router, notify, notifySettings) {
                             return res.json('Standard submission confirmation (with reference) sent');
                         })
                         .catch(err => console.error(err))
-                } else if (req.body.service_type == 2) { // premium and drop-off service with reference
+                // premium and drop-off service with reference
+                } else if (req.body.service_type == 2 || req.body.service_type == 3) { 
                     notifyClient
                         .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumUserRef, req.body.to, {
                             personalisation: {
@@ -79,9 +81,10 @@ module.exports = function(router, notify, notifySettings) {
                         .catch(err => console.error(err))
                 }
 
-                // Application Email with no reference
+            // Application Email with no reference
             } else {
-                if (req.body.service_type == 1) { // standard service with no reference
+                // standard service with no reference
+                if (req.body.service_type == 1) { 
                     notifyClient
                         .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardNoUserRef, req.body.to, {
                             personalisation: {
@@ -95,7 +98,8 @@ module.exports = function(router, notify, notifySettings) {
                             return res.json('Standard submission confirmation (without reference) sent');
                             })
                         .catch(err => console.error(err))
-                } else if (req.body.service_type == 2) { // premium and drop-off service with no reference
+                // premium and drop-off service with no reference
+                } else if (req.body.service_type == 2 || req.body.service_type == 3) { 
                     notifyClient
                         .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumNoUserRef, req.body.to, {
                             personalisation: {
