@@ -2,7 +2,7 @@ const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, printf } = format;
 
 const customFormat = printf(({ level, message, timestamp }) => {
-    return `${level}: ${message}`;
+    return `${level.toUpperCase()}: ${message}`;
 });
 
 const logger = createLogger({
