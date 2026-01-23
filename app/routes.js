@@ -55,7 +55,8 @@ module.exports = function(router, notify, notifySettings) {
                                     personalisation: {
                                         'application_reference': req.body.application_reference,
                                         'email_address': req.body.to,
-                                        'customerRef': req.body.user_ref
+                                        'customerRef': req.body.user_ref,
+                                        'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                     },
                                     reference: "submission - standard - customer reference - royal mail"
                                 })
@@ -73,7 +74,8 @@ module.exports = function(router, notify, notifySettings) {
                                     personalisation: {
                                         'application_reference': req.body.application_reference,
                                         'email_address': req.body.to,
-                                        'customerRef': req.body.user_ref
+                                        'customerRef': req.body.user_ref,
+                                        'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                     },
                                     reference: "submission - standard - customer reference - courier"
                                 })
@@ -92,7 +94,8 @@ module.exports = function(router, notify, notifySettings) {
                             .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumCustRef, req.body.to, {
                                 personalisation: {
                                     'application_reference': req.body.application_reference,
-                                    'customerRef': req.body.user_ref
+                                    'customerRef': req.body.user_ref,
+                                    'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                 },
                                 reference: "submission - premium - customer reference"
                             })
@@ -108,7 +111,8 @@ module.exports = function(router, notify, notifySettings) {
                             .sendEmail(notifySettings.templates.emailTemplateSubmissionDropOffCustRef, req.body.to, {
                                 personalisation: {
                                     'application_reference': req.body.application_reference,
-                                    'customerRef': req.body.user_ref
+                                    'customerRef': req.body.user_ref,
+                                    'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                 },
                                 reference: "submission - drop-off - customer reference"
                             })
@@ -133,7 +137,8 @@ module.exports = function(router, notify, notifySettings) {
                                     personalisation: {
                                         'application_reference': req.body.application_reference,
                                         'email_address': req.body.to,
-                                        'customerRef': req.body.user_ref
+                                        'customerRef': req.body.user_ref,
+                                        'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                     },
                                     reference: "submission - standard - royal mail"
                                 })
@@ -151,7 +156,8 @@ module.exports = function(router, notify, notifySettings) {
                                     personalisation: {
                                         'application_reference': req.body.application_reference,
                                         'email_address': req.body.to,
-                                        'customerRef': req.body.user_ref
+                                        'customerRef': req.body.user_ref,
+                                        'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                     },
                                     reference: "submission - standard - courier"
                                 })
@@ -169,7 +175,8 @@ module.exports = function(router, notify, notifySettings) {
                         notifyClient
                             .sendEmail(notifySettings.templates.emailTemplateSubmissionPremium, req.body.to, {
                                 personalisation: {
-                                    'application_reference': req.body.application_reference
+                                    'application_reference': req.body.application_reference,
+                                    'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                 },
                                 reference: "submission - premium"
                             })
@@ -185,7 +192,8 @@ module.exports = function(router, notify, notifySettings) {
                         notifyClient
                             .sendEmail(notifySettings.templates.emailTemplateSubmissionDropOff, req.body.to, {
                                 personalisation: {
-                                    'application_reference': req.body.application_reference
+                                    'application_reference': req.body.application_reference,
+                                    'coverSheetLink': `${notifySettings.urls.applicationServiceURL}/open-paper-app/${req.body.application_reference}/${req.body.application_guid}`
                                 },
                                 reference: "submission - drop-off"
                             })
