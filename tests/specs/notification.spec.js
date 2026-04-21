@@ -1,8 +1,9 @@
 const expect = require('chai').expect
 const axios = require('axios')
+const httpOkStatus = 200
 
 before('Run Server', (done) => {
-  const server = require('../../server').getApp
+  const _server = require('../../server').getApp
   done()
 })
 
@@ -10,11 +11,11 @@ describe('Healthcheck is working', () => {
   describe('GET /healthcheck', () => {
     const url = 'http://localhost:1234/api/notification/healthcheck'
 
-    it('returns status 200', (done) => {
+    it('returns status httpOkStatus', (done) => {
       axios
         .get(url)
         .then((response) => {
-          expect(response.status).to.equal(200)
+          expect(response.status).to.equal(httpOkStatus)
           done()
         })
         .catch((error) => {

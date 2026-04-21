@@ -6,7 +6,7 @@ module.exports = (router, notify, notifySettings) => {
   // =====================================
   router
     //process login form
-    .get('/healthcheck', (req, res) => {
+    .get('/healthcheck', (_req, res) => {
       res.json({ message: 'Notification Service is running' })
     })
 
@@ -24,7 +24,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'email confirmation',
       })
-      .then((response) => {
+      .then((_response) => {
         console.debug('Sending confirmation email')
         return res.json('Confirmation email sent')
       })
@@ -36,11 +36,16 @@ module.exports = (router, notify, notifySettings) => {
   // =====================================
 
   router.post('/confirm-submission', (req, res) => {
+    const standardServiceRoyalMail = 1
+    const premiumService = 2
+    const dropOffService = 3
+    const eAppService = 4
+
     // ALL APPLICATIONS WITH A REFERENCE NUMBER
     if (req.body.user_ref !== 'undefined' && req.body.user_ref !== null && req.body.user_ref !== '') {
       switch (req.body.service_type) {
         // STANDARD SERVICE
-        case 1:
+        case standardServiceRoyalMail:
           // ROYAL MAIL
           if (
             req.body.user_ref !== 'undefined' &&
@@ -57,7 +62,7 @@ module.exports = (router, notify, notifySettings) => {
                 },
                 reference: 'submission - standard - customer reference - royal mail',
               })
-              .then((response) => {
+              .then((_response) => {
                 console.info('sending submission email (standard - customer reference - royal mail)')
                 return res.json('submission email (standard - customer reference - royal mail) sent')
               })
@@ -80,7 +85,7 @@ module.exports = (router, notify, notifySettings) => {
                 },
                 reference: 'submission - standard - customer reference - courier',
               })
-              .then((response) => {
+              .then((_response) => {
                 console.info('sending submission email (standard - customer reference - courier)')
                 return res.json('submission email (standard - customer reference - courier) sent')
               })
@@ -90,7 +95,7 @@ module.exports = (router, notify, notifySettings) => {
           }
           break
         // PREMIUM SERVICE
-        case 2:
+        case premiumService:
           notifyClient
             .sendEmail(notifySettings.templates.emailTemplateSubmissionPremiumCustRef, req.body.to, {
               personalisation: {
@@ -100,14 +105,14 @@ module.exports = (router, notify, notifySettings) => {
               },
               reference: 'submission - premium - customer reference',
             })
-            .then((response) => {
+            .then((_response) => {
               console.info('sending submission email (premium - customer reference)')
               return res.json('submission email (premium - customer reference) sent')
             })
             .catch((err) => console.error(err))
           break
         // DROP-OFF SERVICE
-        case 3:
+        case dropOffService:
           notifyClient
             .sendEmail(notifySettings.templates.emailTemplateSubmissionDropOffCustRef, req.body.to, {
               personalisation: {
@@ -117,7 +122,7 @@ module.exports = (router, notify, notifySettings) => {
               },
               reference: 'submission - drop-off - customer reference',
             })
-            .then((response) => {
+            .then((_response) => {
               console.info('sending submission email (drop-off - customer reference)')
               return res.json('submission email (drop-off - customer reference) sent')
             })
@@ -128,7 +133,7 @@ module.exports = (router, notify, notifySettings) => {
       // ALL APPLICATIONS WITHOUT A REFERENCE NUMBER
       switch (req.body.service_type) {
         // STANDARD SERVICE
-        case 1:
+        case standardServiceRoyalMail:
           // ROYAL MAIL
           if (
             req.body.user_ref !== 'undefined' &&
@@ -145,7 +150,7 @@ module.exports = (router, notify, notifySettings) => {
                 },
                 reference: 'submission - standard - royal mail',
               })
-              .then((response) => {
+              .then((_response) => {
                 console.info('sending submission email (standard - royal mail)')
                 return res.json('submission email (standard - royal mail) sent')
               })
@@ -168,7 +173,7 @@ module.exports = (router, notify, notifySettings) => {
                 },
                 reference: 'submission - standard - courier',
               })
-              .then((response) => {
+              .then((_response) => {
                 console.info('sending submission email (standard - courier)')
                 return res.json('submission email (standard - courier) sent')
               })
@@ -178,7 +183,7 @@ module.exports = (router, notify, notifySettings) => {
           }
           break
         // PREMIUM SERVICE
-        case 2:
+        case premiumService:
           notifyClient
             .sendEmail(notifySettings.templates.emailTemplateSubmissionPremium, req.body.to, {
               personalisation: {
@@ -187,14 +192,14 @@ module.exports = (router, notify, notifySettings) => {
               },
               reference: 'submission - premium',
             })
-            .then((response) => {
+            .then((_response) => {
               console.info('sending submission email (premium)')
               return res.json('submission email (premium) sent')
             })
             .catch((err) => console.error(err))
           break
         // DROP-OFF SERVICE
-        case 3:
+        case dropOffService:
           notifyClient
             .sendEmail(notifySettings.templates.emailTemplateSubmissionDropOff, req.body.to, {
               personalisation: {
@@ -203,7 +208,7 @@ module.exports = (router, notify, notifySettings) => {
               },
               reference: 'submission - drop-off',
             })
-            .then((response) => {
+            .then((_response) => {
               console.info('sending submission email (drop-off)')
               return res.json('submission email (drop-off) sent')
             })
@@ -212,7 +217,7 @@ module.exports = (router, notify, notifySettings) => {
       }
     }
 
-    if (req.body.service_type === 4) {
+    if (req.body.service_type === eAppService) {
       // E-APP SERVICE
       const { application_reference, send_information, to } = req.body
       const { emailTemplateSubmissionEApp } = notifySettings.templates
@@ -249,7 +254,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'reset email password',
       })
-      .then((response) => {
+      .then((_response) => {
         console.info('Sending reset password email')
         return res.json('Password reset email sent')
       })
@@ -277,7 +282,7 @@ module.exports = (router, notify, notifySettings) => {
           reference: 'apply for business access',
         },
       )
-      .then((response) => {
+      .then((_response) => {
         console.info('Sending email to request business access')
         return res.json('Business access request email has been sent')
       })
@@ -296,7 +301,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'business service access decision',
       })
-      .then((response) => {
+      .then((_response) => {
         console.info('Sending business service access decision email')
         return res.json('Business service access decision email has been sent')
       })
@@ -317,7 +322,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'update password',
       })
-      .then((response) => {
+      .then((_response) => {
         console.info('Sending updated password email')
         return res.json('Password updated email sent')
       })
@@ -337,7 +342,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'account locked',
       })
-      .then((response) => {
+      .then((_response) => {
         console.log('Sending account locked email')
         return res.json('Account locked email sent')
       })
@@ -355,7 +360,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'one time passcode',
       })
-      .then((response) => {
+      .then((_response) => {
         console.log('Sending one time passcode email')
         return res.json('One time passcode email sent')
       })
@@ -373,7 +378,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'one time passcode',
       })
-      .then((response) => {
+      .then((_response) => {
         console.log('Sending one time passcode sms')
         return res.json('One time passcode sms sent')
       })
@@ -394,7 +399,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'expiry warning test',
       })
-      .then((response) => {
+      .then((_response) => {
         console.log('Sending account expiry warning email')
         return res.json('Account expiry warning email sent')
       })
@@ -413,7 +418,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'expiry confirmation test',
       })
-      .then((response) => {
+      .then((_response) => {
         console.log('Sending account expiry confirmation email')
         return res.json('Account expired confirmation email sent')
       })
@@ -466,7 +471,7 @@ module.exports = (router, notify, notifySettings) => {
         },
         reference: 'additional payment receipt',
       })
-      .then((response) => {
+      .then((_response) => {
         console.log('Sending additional payment receipt email')
         return res.json('Additional payment receipt email sent')
       })

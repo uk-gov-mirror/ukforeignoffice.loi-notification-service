@@ -1,7 +1,7 @@
-var dotenv = require('dotenv')
-var env = dotenv.config({ path: process.env.DOTENV || '.env' })
-var configs = JSON.parse(process.env.CONFIGS)
-var templates = JSON.parse(process.env.TEMPLATES)
-var urls = JSON.parse(process.env.URLS)
-var config = { configs: configs, templates: templates, urls: urls }
+const dotenv = require('dotenv')
+const _env = dotenv.config({ path: process.env.DOTENV || '.env' })
+const configs = JSON.parse(process.env.CONFIGS)
+const templates = JSON.parse(process.env.TEMPLATES)
+const urls = JSON.parse(process.env.URLS)
+const config = { configs: configs, templates: templates, urls: urls }
 module.exports = config

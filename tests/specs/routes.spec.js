@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const express = require('express')
 const request = require('supertest')
-
+const httpOkStatus = 200
 const registerRoutes = require('../../app/routes')
 
 class FakeNotifyClient {
@@ -69,7 +69,7 @@ describe('Routes unit tests', () => {
       token: 'abc-token',
     }
 
-    const response = await request(app).post('/api/notification/confirm-email').send(body).expect(200)
+    const response = await request(app).post('/api/notification/confirm-email').send(body).expect(httpOkStatus)
 
     expect(response.body).to.equal('Confirmation email sent')
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
@@ -94,7 +94,7 @@ describe('Routes unit tests', () => {
       send_information: [['Royal Mail tracked delivery']],
     }
 
-    const response = await request(app).post('/api/notification/confirm-submission').send(body).expect(200)
+    const response = await request(app).post('/api/notification/confirm-submission').send(body).expect(httpOkStatus)
 
     expect(response.body).to.equal('submission email (standard - customer reference - royal mail) sent')
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
@@ -112,7 +112,7 @@ describe('Routes unit tests', () => {
       service_type: 2,
     }
 
-    const response = await request(app).post('/api/notification/confirm-submission').send(body).expect(200)
+    const response = await request(app).post('/api/notification/confirm-submission').send(body).expect(httpOkStatus)
 
     expect(response.body).to.equal('submission email (premium) sent')
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
@@ -131,7 +131,7 @@ describe('Routes unit tests', () => {
       },
     }
 
-    const response = await request(app).post('/api/notification/confirm-submission').send(body).expect(200)
+    const response = await request(app).post('/api/notification/confirm-submission').send(body).expect(httpOkStatus)
 
     expect(response.body).to.equal('submission email (e-app - EAPP-111) sent')
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
@@ -149,7 +149,7 @@ describe('Routes unit tests', () => {
     const approveResponse = await request(app)
       .post('/api/notification/business-service-decision')
       .send({ to: 'user@example.test', decision: 'approve' })
-      .expect(200)
+      .expect(httpOkStatus)
 
     expect(approveResponse.body).to.equal('Business service access decision email has been sent')
     let call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
@@ -159,7 +159,7 @@ describe('Routes unit tests', () => {
     const rejectResponse = await request(app)
       .post('/api/notification/business-service-decision')
       .send({ to: 'user@example.test', decision: 'reject' })
-      .expect(200)
+      .expect(httpOkStatus)
 
     expect(rejectResponse.body).to.equal('Business service access decision email has been sent')
     call = FakeNotifyClient.lastInstance.sendEmailCalls[1]
@@ -173,7 +173,7 @@ describe('Routes unit tests', () => {
         to: '+447000000001',
         oneTimePasscode: '123456',
       })
-      .expect(200)
+      .expect(httpOkStatus)
 
     expect(response.body).to.equal('One time passcode sms sent')
     expect(FakeNotifyClient.lastInstance.sendEmailCalls).to.have.lengthOf(0)
@@ -190,7 +190,7 @@ describe('Routes unit tests', () => {
         to: 'user@example.test',
         failed_certs: JSON.stringify([{ doc_title: 'Passport' }, { doc_title: 'Birth certificate' }]),
       })
-      .expect(200)
+      .expect(httpOkStatus)
 
     expect(response.body).to.equal('Failed document eligibility email sent')
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
@@ -206,7 +206,7 @@ describe('Routes unit tests', () => {
         to: 'user@example.test',
         failed_certs: JSON.stringify([{ doc_title: 'Passport' }]),
       })
-      .expect(200)
+      .expect(httpOkStatus)
 
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
     expect(call.options.personalisation.docLabel).to.equal('document')
@@ -224,7 +224,7 @@ describe('Routes unit tests', () => {
         paymentAmount: '123.45',
         paymentMethod: 'card',
       })
-      .expect(200)
+      .expect(httpOkStatus)
 
     expect(response.body).to.equal('Additional payment receipt email sent')
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]
@@ -249,7 +249,7 @@ describe('Routes unit tests', () => {
         justification: 'Need team access',
         token: 'approval-token',
       })
-      .expect(200)
+      .expect(httpOkStatus)
 
     expect(response.body).to.equal('Business access request email has been sent')
     const call = FakeNotifyClient.lastInstance.sendEmailCalls[0]

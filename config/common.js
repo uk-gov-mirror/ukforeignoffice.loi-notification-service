@@ -5,7 +5,7 @@
 var notify = require('./notify.js')
 
 exports.config = () => {
-  var node_env = process.env.NODE_ENV || 'development'
+  const _node_env = process.env.NODE_ENV || 'development'
 
   return notify
 }
