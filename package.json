@@ -16,11 +16,16 @@
     "winston": "^3.17.0",
     "xss-filters": "^1.2.7"
   },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.12"
+  },
   "license": "MIT",
   "scripts": {
     "start": "node server.js 3002",
     "lint": "jshint --reporter checkstyle . > linting.xml",
     "local-lint": "jshint .",
+    "format": "biome check --write .",
+    "quality": "biome check --changed --since=develop",
     "test": "./node_modules/mocha/bin/_mocha --timeout 10000 --recursive tests/ --exit"
   },
   "overrides": {
