@@ -9,7 +9,6 @@
     "chai": "^4.3.8",
     "dotenv": "^16.4.7",
     "express": "^4.20.0",
-    "jshint": "^2.13.6",
     "mocha": "^10.7.3",
     "notifications-node-client": "^7.0.3",
     "supertest": "6.3.3",
@@ -19,8 +18,6 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js 3002",
-    "lint": "jshint --reporter checkstyle . > linting.xml",
-    "local-lint": "jshint .",
     "format": "biome check --write .",
     "quality": "biome check --changed --since=main",
     "test": "./node_modules/mocha/bin/_mocha --timeout 10000 --recursive tests/ --exit"
@@ -29,10 +26,7 @@
     "axios": "1.13.6",
     "diff": "^8.0.3",
     "qs": "^6.14.1",
-    "serialize-javascript": "^7.0.3",
-    "jshint": {
-      "minimatch": "^3.1.5"
-    }
+    "serialize-javascript": "^7.0.3"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.13"
