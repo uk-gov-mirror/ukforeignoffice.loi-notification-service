@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Email notification microservice",
   "author": "Mike Skaife <mike.skaife@informed.com>",
+  "type": "module",
   "dependencies": {
     "axios": "1.13.6",
     "body-parser": "1.20.3",
