@@ -1,10 +1,6 @@
-/**
- * Created by skaifem on 31/12/2015.
- */
+import { notify } from './notify.js'
 
-const notify = require('./notify.js')
-
-exports.config = () => {
+export const config = () => {
   const _node_env = process.env.NODE_ENV || 'development'
 
   return notify

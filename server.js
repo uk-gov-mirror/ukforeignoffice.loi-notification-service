@@ -1,23 +1,22 @@
-/**
- * Created by skaifem on 25/11/2015.
- */
+import bodyParser from 'body-parser'
+import express from 'express'
+import notifyClient from 'notifications-node-client'
+import { routes } from './app/routes.js'
+import { config } from './config/common.js'
+import { logger } from './config/logs.js'
 
 // =====================================
 // SETUP
 // =====================================
 const defaultPort = 1234
-var port = process.argv[2] && !Number.isNaN(Number(process.argv[2])) ? process.argv[2] : process.env.PORT || defaultPort
+const port =
+  process.argv[2] && !Number.isNaN(Number(process.argv[2])) ? process.argv[2] : process.env.PORT || defaultPort
 
-var express = require('express')
+const app = express()
 
-var app = express()
-var bodyParser = require('body-parser')
+var notifySettings = config()
 
-var common = require('./config/common.js')
-var notifySettings = common.config()
-require('./config/logs')
-
-var notify = require('notifications-node-client').NotifyClient
+var notify = notifyClient.NotifyClient
 
 // =====================================
 // CONFIGURATION
@@ -33,8 +32,8 @@ app.use(bodyParser.json())
 // =====================================
 // ROUTES
 // =====================================
-var router = express.Router() //get instance of Express router
-require('./app/routes.js')(router, notify, notifySettings) //load routes passing in app and configured passport
+const router = express.Router() //get instance of Express router
+routes(router, notify, notifySettings) //load routes passing in app and configured passport
 app.use('/api/notification', router) //prefix all requests with 'api'
 
 // =====================================
@@ -42,9 +41,9 @@ app.use('/api/notification', router) //prefix all requests with 'api'
 // =====================================
 app.listen(port, (err) => {
   if (err) {
-    return console.error(`Failed to start server on port ${port}`, err)
+    return logger.error(`Failed to start server on port ${port}`, err)
   }
-  console.log(`Notification-service running on port: ${port}`)
+  logger.info(`Notification-service running on port: ${port}`)
 })
 
-module.exports.getApp = app
+export const getApp = app

@@ -1,8 +1,7 @@
-const { expect } = require('chai')
-const express = require('express')
-const request = require('supertest')
-
-const registerRoutes = require('../../app/routes')
+import { expect } from 'chai'
+import express from 'express'
+import request from 'supertest'
+import { routes } from '../../app/routes.js'
 
 class FakeNotifyClient {
   constructor() {
@@ -50,7 +49,7 @@ function createTestApp() {
     },
   }
 
-  registerRoutes(router, FakeNotifyClient, notifySettings)
+  routes(router, FakeNotifyClient, notifySettings)
   app.use('/api/notification', router)
   return app
 }

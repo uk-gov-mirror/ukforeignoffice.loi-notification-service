@@ -1,8 +1,9 @@
-const expect = require('chai').expect
-const axios = require('axios')
+import axios from 'axios'
+import { expect } from 'chai'
+import { getApp } from '../../server.js'
 
 before('Run Server', (done) => {
-  require('../../server').getApp
+  getApp
   done()
 })
 
