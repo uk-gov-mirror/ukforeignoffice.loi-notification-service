@@ -1,8 +1,6 @@
 .gitignore
-.jshintignore
 .nvmrc
 Dockerfile
 LICENSE
-linting.xml
 README.md
 logs
