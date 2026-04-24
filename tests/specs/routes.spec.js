@@ -55,14 +55,14 @@ function createTestApp() {
   return app
 }
 
-describe('Routes unit tests', function () {
+describe('Routes unit tests', () => {
   let app
 
-  beforeEach(function () {
+  beforeEach(() => {
     app = createTestApp()
   })
 
-  it('POST /confirm-email sends confirmation email with expected payload', async function () {
+  it('POST /confirm-email sends confirmation email with expected payload', async () => {
     const body = {
       application_reference: 'APP-123',
       to: 'user@example.test',
@@ -84,7 +84,7 @@ describe('Routes unit tests', function () {
     expect(call.options.reference).to.equal('email confirmation')
   })
 
-  it('POST /confirm-submission for standard service + customer ref + royal mail', async function () {
+  it('POST /confirm-submission for standard service + customer ref + royal mail', async () => {
     const body = {
       application_reference: 'APP-456',
       application_guid: 'guid-123',
@@ -103,7 +103,7 @@ describe('Routes unit tests', function () {
     expect(call.options.personalisation.coverSheetLink).to.equal('https://app.test/open-paper-app/APP-456/guid-123')
   })
 
-  it('POST /confirm-submission for premium service without customer ref', async function () {
+  it('POST /confirm-submission for premium service without customer ref', async () => {
     const body = {
       application_reference: 'APP-789',
       application_guid: 'guid-789',
@@ -120,7 +120,7 @@ describe('Routes unit tests', function () {
     expect(call.options.personalisation.application_reference).to.equal('APP-789')
   })
 
-  it('POST /confirm-submission for e-app service sends e-app template', async function () {
+  it('POST /confirm-submission for e-app service sends e-app template', async () => {
     const body = {
       application_reference: 'EAPP-111',
       to: 'eapp@example.test',
@@ -145,7 +145,7 @@ describe('Routes unit tests', function () {
     expect(call.options.reference).to.equal('submission - e-app - EAPP-111')
   })
 
-  it('POST /business-service-decision maps approve and reject flags', async function () {
+  it('POST /business-service-decision maps approve and reject flags', async () => {
     const approveResponse = await request(app)
       .post('/api/notification/business-service-decision')
       .send({ to: 'user@example.test', decision: 'approve' })
@@ -166,7 +166,7 @@ describe('Routes unit tests', function () {
     expect(call.options.personalisation).to.deep.equal({ approve: 'no', reject: 'yes' })
   })
 
-  it('POST /one_time_passcode_sms uses sendSms with passcode payload', async function () {
+  it('POST /one_time_passcode_sms uses sendSms with passcode payload', async () => {
     const response = await request(app)
       .post('/api/notification/one_time_passcode_sms')
       .send({
@@ -183,7 +183,7 @@ describe('Routes unit tests', function () {
     expect(call.options.personalisation).to.deep.equal({ one_time_passcode: '123456' })
   })
 
-  it('POST /failed-documents uses plural label and mapped document titles', async function () {
+  it('POST /failed-documents uses plural label and mapped document titles', async () => {
     const response = await request(app)
       .post('/api/notification/failed-documents')
       .send({
@@ -199,7 +199,7 @@ describe('Routes unit tests', function () {
     expect(call.options.personalisation.failedCertList).to.deep.equal(['Passport', 'Birth certificate'])
   })
 
-  it('POST /failed-documents uses singular label for one document', async function () {
+  it('POST /failed-documents uses singular label for one document', async () => {
     await request(app)
       .post('/api/notification/failed-documents')
       .send({
@@ -213,7 +213,7 @@ describe('Routes unit tests', function () {
     expect(call.options.personalisation.failedCertList).to.deep.equal(['Passport'])
   })
 
-  it('POST /additional-payment-receipt sends expected payment personalisation', async function () {
+  it('POST /additional-payment-receipt sends expected payment personalisation', async () => {
     const response = await request(app)
       .post('/api/notification/additional-payment-receipt')
       .send({
@@ -238,7 +238,7 @@ describe('Routes unit tests', function () {
     })
   })
 
-  it('POST /request-business-access uses configured mailbox as recipient', async function () {
+  it('POST /request-business-access uses configured mailbox as recipient', async () => {
     const response = await request(app)
       .post('/api/notification/request-business-access')
       .send({
