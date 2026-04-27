@@ -1,8 +1,13 @@
 import dotenv from 'dotenv'
+import { templates } from './emailTemplates.js'
+import { URLS } from './serviceUrls.js'
 
-const env = dotenv.config({ path: process.env.DOTENV || '.env' })
-const configs = JSON.parse(process.env.CONFIGS)
-const templates = JSON.parse(process.env.TEMPLATES)
-const urls = JSON.parse(process.env.URLS)
-
-export const notify = { configs, templates, urls, env }
+export const notify = () => {
+  const env = dotenv.config({ path: '.env' })
+  const configs = process.env.CONFIGS ? JSON.parse(process.env.CONFIGS) : {}
+  const urls = {
+    ...URLS,
+    ...(process.env.URLS ? JSON.parse(process.env.URLS) : {}),
+  }
+  return { configs, templates, urls, env }
+}
