@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import { templates } from './emailTemplates.js'
+import { emailTemplates } from './emailTemplates.js'
 import { notifyAuth } from './notifyAuth.js'
 import { URLS } from './serviceUrls.js'
 
@@ -8,6 +8,10 @@ export const notify = () => {
   const configs = {
     ...notifyAuth,
     ...(process.env.CONFIGS ? JSON.parse(process.env.CONFIGS) : {}),
+  }
+  const templates = {
+    ...emailTemplates,
+    ...(process.env.TEMPLATES ? JSON.parse(process.env.TEMPLATES) : {}),
   }
   const urls = {
     ...URLS,

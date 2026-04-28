@@ -1,4 +1,4 @@
-export const templates = {
+export const emailTemplates = {
   emailTemplateConfirm: 'fc22c984-b50b-4c43-898e-039dd808b039',
   emailTemplateSubmissionStandardRoyalMail: '03acf3ba-0c95-438a-9ead-f6daadb8bb93',
   emailTemplateSubmissionStandardCourier: '81b331ee-6f1d-465f-8f9e-1fd505e65611',

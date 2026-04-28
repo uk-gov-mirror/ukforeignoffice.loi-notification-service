@@ -4,7 +4,7 @@ vi.mock('dotenv', () => ({
   default: { config: vi.fn(() => ({ parsed: { TEST: 'value' } })) },
 }))
 vi.mock('../../config/emailTemplates.js', () => ({
-  templates: { welcome: 'Welcome Template' },
+  emailTemplates: { welcome: 'Welcome Template' },
 }))
 vi.mock('../../config/serviceUrls.js', () => ({
   URLS: { api: 'http://default-api' },
