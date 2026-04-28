@@ -23,7 +23,8 @@
         "noCommonJs": "error"
       },
       "suspicious": {
-        "useAwait": "error"
+        "useAwait": "error",
+        "noVar": "error"
       }
     }
   },

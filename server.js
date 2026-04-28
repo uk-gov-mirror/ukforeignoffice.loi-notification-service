@@ -14,9 +14,9 @@ const port =
 
 const app = express()
 
-var notifySettings = config()
+const notifySettings = config()
 
-var notify = notifyClient.NotifyClient
+const notify = notifyClient.NotifyClient
 
 // =====================================
 // CONFIGURATION
