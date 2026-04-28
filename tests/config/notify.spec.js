@@ -19,7 +19,11 @@ describe('notify config', () => {
   it('should load and merge configs and urls', async () => {
     const { notify } = await import('../../config/notify.js')
     const result = notify()
-    expect(result.configs).toEqual({ foo: 'bar' })
+    expect(result.configs).toEqual({
+      foo: 'bar',
+      notify_api_key: 'fake-api-key-please-set-me-loi',
+      request_business_service_mailbox: 'fake-address-please-set-me-loi@fcdo.gov.uk',
+    })
     expect(result.templates).toEqual({ welcome: 'Welcome Template' })
     expect(result.urls).toEqual({ api: 'http://env-api', extra: 'yes' })
     expect(result.env).toBeDefined()

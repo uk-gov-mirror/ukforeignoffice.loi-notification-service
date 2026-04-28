@@ -19,7 +19,7 @@
     "start": "node server.js 3002",
     "format": "biome check --write .",
     "quality": "biome check --changed --since=main",
-    "test": "vitest run --coverage"
+    "test": "vitest run --coverage --reporter=tree"
   },
   "overrides": {
     "axios": "1.13.6",
