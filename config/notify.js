@@ -1,9 +1,21 @@
-var dotenv = require('dotenv');
-var env = dotenv.config({path: process.env.DOTENV || '.env'});
-var configs = JSON.parse(process.env.CONFIGS);
-var templates = JSON.parse(process.env.TEMPLATES);
-var urls = JSON.parse(process.env.URLS);
-var config = {configs: configs,
-        templates:templates,
-        urls:urls};
-module.exports = config;
+import dotenv from 'dotenv'
+import { emailTemplates } from './emailTemplates.js'
+import { notifyAuth } from './notifyAuth.js'
+import { URLS } from './serviceUrls.js'
+
+export const notify = () => {
+  const env = dotenv.config({ path: '.env' })
+  const configs = {
+    ...notifyAuth,
+    ...(process.env.CONFIGS ? JSON.parse(process.env.CONFIGS) : {}),
+  }
+  const templates = {
+    ...emailTemplates,
+    ...(process.env.TEMPLATES ? JSON.parse(process.env.TEMPLATES) : {}),
+  }
+  const urls = {
+    ...URLS,
+    ...(process.env.URLS ? JSON.parse(process.env.URLS) : {}),
+  }
+  return { configs, templates, urls, env }
+}
