@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js 3002",
+    "dev": "NODE_ENV=development node server.js 3002",
     "format": "biome check --write .",
     "quality": "biome check --changed --since=develop",
     "test": "vitest run --coverage --reporter=tree"
