@@ -29,10 +29,13 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'email confirmation',
       })
       .then((_response) => {
-        logger.debug('Sending confirmation email')
+        logger.info('Sent confirmation email', { application_reference, email_address: to })
         return res.json('Confirmation email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) => {
+        logger.error('Error sending confirmation email', { application_reference, email_address: to, error: err })
+        return res.status(500).json('Error sending confirmation email')
+      })
   })
 
   // =====================================
@@ -64,10 +67,24 @@ export const routes = (router, notify, notifySettings) => {
                 reference: 'submission - standard - customer reference - royal mail',
               })
               .then((_response) => {
-                logger.info('sending submission email (standard - customer reference - royal mail)')
+                logger.info('Sent submission email (standard - customer reference - royal mail)', {
+                  application_reference,
+                  email_address: to,
+                  customerRef: user_ref,
+                })
                 return res.json('submission email (standard - customer reference - royal mail) sent')
               })
-              .catch((err) => logger.error(err))
+              .catch((err) => {
+                logger.error('Error sending submission email (standard - customer reference - royal mail)', {
+                  application_reference,
+                  email_address: to,
+                  customerRef: user_ref,
+                  error: err,
+                })
+                return res
+                  .status(500)
+                  .json('Error sending submission email (standard - customer reference - royal mail)')
+              })
           }
 
           // COURIER
@@ -87,12 +104,28 @@ export const routes = (router, notify, notifySettings) => {
                 reference: 'submission - standard - customer reference - courier',
               })
               .then((_response) => {
-                logger.info('sending submission email (standard - customer reference - courier)')
+                logger.info('sending submission email (standard - customer reference - courier)', {
+                  application_reference,
+                  email_address: to,
+                  customerRef: user_ref,
+                })
                 return res.json('submission email (standard - customer reference - courier) sent')
               })
-              .catch((err) => logger.error(err))
+              .catch((err) => {
+                logger.error('Error sending submission email (standard - customer reference - courier)', {
+                  application_reference,
+                  email_address: to,
+                  customerRef: user_ref,
+                  error: err,
+                })
+                return res.status(500).json('Error sending submission email (standard - customer reference - courier)')
+              })
           } else {
-            logger.info('NO EMAIL SENT - Could not determine if application was postal or courier.')
+            logger.error('NO EMAIL SENT - Could not determine if application was postal or courier.', {
+              application_reference,
+              email_address: to,
+              customerRef: user_ref,
+            })
           }
           break
         // PREMIUM SERVICE
@@ -107,10 +140,22 @@ export const routes = (router, notify, notifySettings) => {
               reference: 'submission - premium - customer reference',
             })
             .then((_response) => {
-              logger.info('sending submission email (premium - customer reference)')
+              logger.info('Sent submission email (premium - customer reference)', {
+                application_reference,
+                email_address: to,
+                customerRef: user_ref,
+              })
               return res.json('submission email (premium - customer reference) sent')
             })
-            .catch((err) => logger.error(err))
+            .catch((err) => {
+              logger.error('Error sending submission email (premium - customer reference)', {
+                application_reference,
+                email_address: to,
+                customerRef: user_ref,
+                error: err,
+              })
+              return res.status(500).json('Error sending submission email (premium - customer reference)')
+            })
           break
         // DROP-OFF SERVICE
         case 3:
@@ -124,10 +169,22 @@ export const routes = (router, notify, notifySettings) => {
               reference: 'submission - drop-off - customer reference',
             })
             .then((_response) => {
-              logger.info('sending submission email (drop-off - customer reference)')
+              logger.info('Sent submission email (drop-off - customer reference)', {
+                application_reference,
+                email_address: to,
+                customerRef: user_ref,
+              })
               return res.json('submission email (drop-off - customer reference) sent')
             })
-            .catch((err) => logger.error(err))
+            .catch((err) => {
+              logger.error('Error sending submission email (drop-off - customer reference)', {
+                application_reference,
+                email_address: to,
+                customerRef: user_ref,
+                error: err,
+              })
+              return res.status(500).json('Error sending submission email (drop-off - customer reference)')
+            })
           break
       }
     } else {
@@ -152,10 +209,22 @@ export const routes = (router, notify, notifySettings) => {
                 reference: 'submission - standard - royal mail',
               })
               .then((_response) => {
-                logger.info('sending submission email (standard - royal mail)')
+                logger.info('Sent submission email (standard - royal mail)', {
+                  application_reference,
+                  email_address: to,
+                  customerRef: user_ref,
+                })
                 return res.json('submission email (standard - royal mail) sent')
               })
-              .catch((err) => logger.error(err))
+              .catch((err) => {
+                logger.error('Error sending submission email (standard - royal mail)', {
+                  application_reference,
+                  email_address: to,
+                  customerRef: user_ref,
+                  error: err,
+                })
+                return res.status(500).json('Error sending submission email (standard - royal mail)')
+              })
           }
 
           // COURIER
@@ -175,7 +244,11 @@ export const routes = (router, notify, notifySettings) => {
                 reference: 'submission - standard - courier',
               })
               .then((_response) => {
-                logger.info('sending submission email (standard - courier)')
+                logger.info('sending submission email (standard - courier)', {
+                  application_reference,
+                  email_address: to,
+                  customerRef: user_ref,
+                })
                 return res.json('submission email (standard - courier) sent')
               })
               .catch((err) => logger.error(err))
@@ -194,10 +267,16 @@ export const routes = (router, notify, notifySettings) => {
               reference: 'submission - premium',
             })
             .then((_response) => {
-              logger.info('sending submission email (premium)')
+              logger.info('Sent submission email (premium)', { application_reference, email_address: to })
               return res.json('submission email (premium) sent')
             })
-            .catch((err) => logger.error(err))
+            .catch((err) =>
+              logger.error('Error sending submission email (premium)', {
+                application_reference,
+                email_address: to,
+                error: err,
+              }),
+            )
           break
         // DROP-OFF SERVICE
         case 3:
@@ -210,10 +289,16 @@ export const routes = (router, notify, notifySettings) => {
               reference: 'submission - drop-off',
             })
             .then((_response) => {
-              logger.info('sending submission email (drop-off)')
+              logger.info('Sent submission email (drop-off)', { application_reference, email_address: to })
               return res.json('submission email (drop-off) sent')
             })
-            .catch((err) => logger.error(err))
+            .catch((err) =>
+              logger.error('Error sending submission email (drop-off)', {
+                application_reference,
+                email_address: to,
+                error: err,
+              }),
+            )
           break
       }
     }
@@ -233,10 +318,19 @@ export const routes = (router, notify, notifySettings) => {
           reference: `submission - e-app - ${application_reference}`,
         })
         .then(() => {
-          logger.info(`sending submission email (e-app - ${application_reference})`)
+          logger.info(`Sent submission email (e-app - ${application_reference})`, {
+            application_reference,
+            email_address: to,
+          })
           return res.json(`submission email (e-app - ${application_reference}) sent`)
         })
-        .catch((err) => logger.error(err))
+        .catch((err) =>
+          logger.error('Error sending submission email (e-app)', {
+            application_reference,
+            email_address: to,
+            error: err,
+          }),
+        )
     }
   })
 
@@ -256,10 +350,12 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'reset email password',
       })
       .then((_response) => {
-        logger.info('Sending reset password email')
+        logger.info('Sent reset password email', { application_reference, email_address: to })
         return res.json('Password reset email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) =>
+        logger.error('Error sending reset password email', { application_reference, email_address: to, error: err }),
+      )
   })
 
   // =====================================
@@ -285,10 +381,25 @@ export const routes = (router, notify, notifySettings) => {
         },
       )
       .then((_response) => {
-        logger.info('Sending email to request business access')
+        logger.info('Sent email to request business access', {
+          userEmail,
+          companyName,
+          companiesHouseNumber,
+          businessArea,
+          justification,
+        })
         return res.json('Business access request email has been sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) =>
+        logger.error('Error sending email to request business access', {
+          userEmail,
+          companyName,
+          companiesHouseNumber,
+          businessArea,
+          justification,
+          error: err,
+        }),
+      )
   })
 
   // =====================================
@@ -305,10 +416,12 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'business service access decision',
       })
       .then((_response) => {
-        logger.info('Sending business service access decision email')
+        logger.info('Sent business service access decision email', { email_address: to })
         return res.json('Business service access decision email has been sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) =>
+        logger.error('Error sending business service access decision email', { email_address: to, error: err }),
+      )
   })
 
   // =====================================
@@ -327,10 +440,12 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'update password',
       })
       .then((_response) => {
-        logger.info('Sending updated password email')
+        logger.info('Sent updated password email', { application_reference, email_address: to })
         return res.json('Password updated email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) =>
+        logger.error('Error sending updated password email', { application_reference, email_address: to, error: err }),
+      )
   })
 
   // =====================================
@@ -348,10 +463,12 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'account locked',
       })
       .then((_response) => {
-        logger.info('Sending account locked email')
+        logger.info('Sent account locked email', { application_reference, email_address: to })
         return res.json('Account locked email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) =>
+        logger.error('Error sending account locked email', { application_reference, email_address: to, error: err }),
+      )
   })
 
   // =====================================
@@ -367,10 +484,10 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'one time passcode',
       })
       .then((_response) => {
-        logger.info('Sending one time passcode email')
+        logger.info('Sent one time passcode email', { email_address: to })
         return res.json('One time passcode email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) => logger.error('Error sending one time passcode email', { email_address: to, error: err }))
   })
 
   // =====================================
@@ -386,10 +503,10 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'one time passcode',
       })
       .then((_response) => {
-        logger.info('Sending one time passcode sms')
+        logger.info('Sent one time passcode sms', { email_address: to })
         return res.json('One time passcode sms sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) => logger.error('Error sending one time passcode sms', { email_address: to, error: err }))
   })
 
   // =====================================
@@ -408,10 +525,10 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'expiry warning test',
       })
       .then((_response) => {
-        logger.info('Sending account expiry warning email')
+        logger.info('Sent account expiry warning email', { email_address: to })
         return res.json('Account expiry warning email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) => logger.error('Error sending account expiry warning email', { email_address: to, error: err }))
   })
 
   // =====================================
@@ -428,10 +545,12 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'expiry confirmation test',
       })
       .then((_response) => {
-        logger.info('Sending account expiry confirmation email')
+        logger.info('Sent account expiry confirmation email', { email_address: to })
         return res.json('Account expired confirmation email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) =>
+        logger.error('Error sending account expiry confirmation email', { email_address: to, error: err }),
+      )
   })
 
   // =====================================
@@ -460,10 +579,10 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'failed eligibility email notify test',
       })
       .then((_response) => {
-        logger.info('Sending failed eligibility email')
+        logger.info('Sent failed eligibility email', { email_address: to })
         return res.json('Failed document eligibility email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) => logger.error('Error sending failed eligibility email', { email_address: to, error: err }))
   })
 
   // =====================================
@@ -484,9 +603,9 @@ export const routes = (router, notify, notifySettings) => {
         reference: 'additional payment receipt',
       })
       .then((_response) => {
-        logger.info('Sending additional payment receipt email')
+        logger.info('Sent additional payment receipt email', { email_address: to })
         return res.json('Additional payment receipt email sent')
       })
-      .catch((err) => logger.error(err))
+      .catch((err) => logger.error('Error sending additional payment receipt email', { email_address: to, error: err }))
   })
 }
