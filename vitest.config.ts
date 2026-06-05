@@ -5,7 +5,6 @@ export default defineConfig({
     exclude: [...configDefaults.exclude],
     coverage: {
       provider: 'v8',
-      all: true,
       include: ['**/*.js'],
       thresholds: {
         statements: 57,

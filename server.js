@@ -14,7 +14,7 @@ const port =
 
 const app = express()
 
-const notifySettings = config()
+const notifySettings = config({ quiet: true })
 
 const notify = notifyClient.NotifyClient
 
