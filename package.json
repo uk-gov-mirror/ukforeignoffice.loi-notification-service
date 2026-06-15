@@ -6,15 +6,13 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js 3002",
+    "dev": "NODE_ENV=development node server.js 3002",
     "format": "biome check --write .",
     "quality": "biome check --changed --since=develop",
     "test": "vitest run --coverage --reporter=tree"
   },
-  "overrides": {
-    "axios": "1.15.2"
-  },
   "dependencies": {
-    "axios": "1.15.2",
+    "axios": "^1.17.0",
     "body-parser": "2.2.2",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
