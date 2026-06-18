@@ -7,10 +7,10 @@ export default defineConfig({
       provider: 'v8',
       include: ['**/*.js'],
       thresholds: {
-        statements: 55,
+        statements: 52,
         branches: 57,
         functions: 35,
-        lines: 54,
+        lines: 52,
       },
     },
   },

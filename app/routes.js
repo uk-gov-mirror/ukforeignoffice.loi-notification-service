@@ -45,6 +45,38 @@ export const routes = (router, notify, notifySettings) => {
   router.post('/confirm-submission', (req, res) => {
     const { application_reference, to, application_guid, user_ref, service_type, send_information } = req.body
 
+    // E-APP SERVICE — handled separately, early return
+    if (service_type === 4) {
+      const { emailTemplateSubmissionEApp } = notifySettings.templates
+
+      notifyClient
+        .sendEmail(emailTemplateSubmissionEApp, to, {
+          personalisation: {
+            application_reference,
+            first_name: send_information.first_name,
+            last_name: send_information.last_name,
+            app_url: `${notifySettings.urls.applicationServiceURL}/open-eapp/${application_reference}`,
+          },
+          reference: `submission - e-app - ${application_reference}`,
+        })
+        .then(() => {
+          logger.info(`Sent submission email (e-app - ${application_reference})`, {
+            application_reference,
+            email_address: to,
+          })
+          return res.json(`submission email (e-app - ${application_reference}) sent`)
+        })
+        .catch((err) => {
+          logger.error('Error sending submission email (e-app)', {
+            application_reference,
+            email_address: to,
+            error: err,
+          })
+          return res.status(500).json('Error sending submission email (e-app)')
+        })
+      return
+    }
+
     // ALL APPLICATIONS WITH A REFERENCE NUMBER
     if (user_ref !== 'undefined' && user_ref !== null && user_ref !== '') {
       switch (service_type) {
@@ -126,6 +158,7 @@ export const routes = (router, notify, notifySettings) => {
               email_address: to,
               customerRef: user_ref,
             })
+            return res.status(400).json('Could not determine delivery method (postal or courier)')
           }
           break
         // PREMIUM SERVICE
@@ -186,6 +219,12 @@ export const routes = (router, notify, notifySettings) => {
               return res.status(500).json('Error sending submission email (drop-off - customer reference)')
             })
           break
+        default:
+          logger.error('NO EMAIL SENT - Unrecognised service_type with customer reference', {
+            application_reference,
+            service_type,
+          })
+          return res.status(400).json(`Unrecognised service_type: ${service_type}`)
       }
     } else {
       // ALL APPLICATIONS WITHOUT A REFERENCE NUMBER
@@ -193,11 +232,7 @@ export const routes = (router, notify, notifySettings) => {
         // STANDARD SERVICE
         case 1:
           // ROYAL MAIL
-          if (
-            user_ref !== 'undefined' &&
-            send_information !== null &&
-            send_information[0][0].includes('Royal Mail tracked delivery')
-          ) {
+          if (send_information?.[0][0].includes('Royal Mail tracked delivery')) {
             notifyClient
               .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardRoyalMail, to, {
                 personalisation: {
@@ -228,11 +263,7 @@ export const routes = (router, notify, notifySettings) => {
           }
 
           // COURIER
-          else if (
-            user_ref !== 'undefined' &&
-            send_information !== null &&
-            send_information[0][0].includes('Courier recorded delivery')
-          ) {
+          else if (send_information?.[0][0].includes('Courier recorded delivery')) {
             notifyClient
               .sendEmail(notifySettings.templates.emailTemplateSubmissionStandardCourier, to, {
                 personalisation: {
@@ -251,9 +282,20 @@ export const routes = (router, notify, notifySettings) => {
                 })
                 return res.json('submission email (standard - courier) sent')
               })
-              .catch((err) => logger.error(err))
+              .catch((err) => {
+                logger.error('Error sending submission email (standard - courier)', {
+                  application_reference,
+                  email_address: to,
+                  error: err,
+                })
+                return res.status(500).json('Error sending submission email (standard - courier)')
+              })
           } else {
-            logger.info('NO EMAIL SENT - Could not determine if application was postal or courier.')
+            logger.error('NO EMAIL SENT - Could not determine if application was postal or courier.', {
+              application_reference,
+              email_address: to,
+            })
+            return res.status(400).json('Could not determine delivery method (postal or courier)')
           }
           break
         // PREMIUM SERVICE
@@ -270,13 +312,14 @@ export const routes = (router, notify, notifySettings) => {
               logger.info('Sent submission email (premium)', { application_reference, email_address: to })
               return res.json('submission email (premium) sent')
             })
-            .catch((err) =>
+            .catch((err) => {
               logger.error('Error sending submission email (premium)', {
                 application_reference,
                 email_address: to,
                 error: err,
-              }),
-            )
+              })
+              return res.status(500).json('Error sending submission email (premium)')
+            })
           break
         // DROP-OFF SERVICE
         case 3:
@@ -292,45 +335,22 @@ export const routes = (router, notify, notifySettings) => {
               logger.info('Sent submission email (drop-off)', { application_reference, email_address: to })
               return res.json('submission email (drop-off) sent')
             })
-            .catch((err) =>
+            .catch((err) => {
               logger.error('Error sending submission email (drop-off)', {
                 application_reference,
                 email_address: to,
                 error: err,
-              }),
-            )
+              })
+              return res.status(500).json('Error sending submission email (drop-off)')
+            })
           break
-      }
-    }
-
-    if (service_type === 4) {
-      // E-APP SERVICE
-      const { emailTemplateSubmissionEApp } = notifySettings.templates
-
-      notifyClient
-        .sendEmail(emailTemplateSubmissionEApp, to, {
-          personalisation: {
+        default:
+          logger.error('NO EMAIL SENT - Unrecognised service_type without customer reference', {
             application_reference,
-            first_name: send_information.first_name,
-            last_name: send_information.last_name,
-            app_url: `${notifySettings.urls.applicationServiceURL}/open-eapp/${application_reference}`,
-          },
-          reference: `submission - e-app - ${application_reference}`,
-        })
-        .then(() => {
-          logger.info(`Sent submission email (e-app - ${application_reference})`, {
-            application_reference,
-            email_address: to,
+            service_type,
           })
-          return res.json(`submission email (e-app - ${application_reference}) sent`)
-        })
-        .catch((err) =>
-          logger.error('Error sending submission email (e-app)', {
-            application_reference,
-            email_address: to,
-            error: err,
-          }),
-        )
+          return res.status(400).json(`Unrecognised service_type: ${service_type}`)
+      }
     }
   })
 
