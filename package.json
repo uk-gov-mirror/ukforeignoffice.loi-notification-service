@@ -10,7 +10,7 @@
     "format": "biome check --write .",
     "quality": "biome check --changed --since=develop",
     "test": "vitest run --coverage --reporter=tree",
-    "prepare": "husky"
+    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky; fi"
   },
   "dependencies": {
     "axios": "^1.17.0",
